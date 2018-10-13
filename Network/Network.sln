@@ -38,4 +38,16 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A8DFB45-1590-4844-A8F7-9150F218C7FC}
 	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tylauriente.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Network\\Network.vcxproj
+		SccProjectName1 = Network
+		SccLocalPath1 = Network
+		SccProjectUniqueName2 = X\\X.vcxproj
+		SccProjectName2 = X
+		SccLocalPath2 = X
+	EndGlobalSection
 EndGlobal
