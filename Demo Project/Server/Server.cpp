@@ -107,7 +107,7 @@ int main(int argc, char* argv[])
 			totalSent += bytesSent;
 		}
 
-		send(client, fullname.c_str(), fullname.length(), 0);
+		free(fileBuffer);
 		
 		closesocket(client);
 	}

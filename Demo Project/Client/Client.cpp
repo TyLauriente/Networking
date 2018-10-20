@@ -13,7 +13,7 @@
 
 int main(int argc, char* argv[])
 {
-	printf("hello world!!!");
+	std::vector<std::string> fileList;
 
 	const char* hostAddress = "127.0.0.1";
 	uint16_t port = 8888;
@@ -62,13 +62,44 @@ int main(int argc, char* argv[])
 	else
 	{
 		buffer[byteRecieved] = '\0';
+		int index = 0;
+		std::string word;
+		bool addToWord = true;
+
+		while (buffer[index] != '\0')
+		{
+			if (buffer[index] == '\n')
+			{
+				addToWord = true;
+				fileList.push_back(word);
+				word.clear();
+			}
+			else if(addToWord)
+			{
+				if (buffer[index] == ' ' && buffer[index + 1] == '-')
+				{
+					addToWord = false;
+				}
+				else
+				{
+					word += buffer[index];
+				}
+			}
+			index++;
+		}
+
 		printf("List of files to download:\n");
 		printf("%s\n", buffer);
 		printf("Enter file number to download: ");
 		std::cin >> file;
 	}
 
-	send(mySocket, std::to_string(file).c_str(), std::to_string(file).length(), 0);
+	int byteSent = send(mySocket, std::to_string(file).c_str(), std::to_string(file).length(), 0);
+
+	if (byteSent == SOCKET_ERROR)
+	{
+		printf("Send failed");
+	}
 
 	std::vector<char> receivedBuffer;
 	
@@ -82,19 +113,15 @@ int main(int argc, char* argv[])
 		receivedBuffer.insert(receivedBuffer.end(), buffer, buffer + byteRecieved);
 	}
 
-	char fileName[1024];
-
-	byteRecieved = recv(mySocket, fileName, std::size(fileName), 0);
-	fileName[byteRecieved] = '\0';
 
 
 	if (!receivedBuffer.empty())
 	{
-		FILE* file = nullptr;
-		fopen_s(&file, fileName, "wb");
+		FILE* fileForWrite = nullptr;
+		fopen_s(&fileForWrite, fileList[file].c_str(), "wb");
 
-		fwrite(receivedBuffer.data(), 1, receivedBuffer.size(), file);
-		fclose(file);
+		fwrite(receivedBuffer.data(), 1, receivedBuffer.size(), fileForWrite);
+		fclose(fileForWrite);
 	}
 
 
