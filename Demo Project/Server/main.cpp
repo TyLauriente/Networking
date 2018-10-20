@@ -11,15 +11,11 @@
 
 int main(int argc, char* argv[])
 {
+	std::string path = "Data\\";
 	std::string fileList;
-
-	std::string directory = "Data/";
-	TCHAR* dir = new TCHAR[directory.size()];
-	for (int index = 0; index < directory.size(); ++index)
-	{
-		dir[index] = directory[index];
-	}
-
+	int index = 0;
+	std::vector<std::string> files;
+	
 	WIN32_FIND_DATA ffd;
 	LARGE_INTEGER fileSize;
 	TCHAR szDir[MAX_PATH];
@@ -27,14 +23,29 @@ int main(int argc, char* argv[])
 	HANDLE hFind = INVALID_HANDLE_VALUE;
 	DWORD dwError = 0;
 
-	StringCchLength(dir, MAX_PATH, &length_of_arg);
+
+
+	StringCchCopy(szDir, MAX_PATH, TEXT(path.c_str()));
+	StringCchCat(szDir, MAX_PATH, TEXT("*"));
 
 	
 
 	hFind = FindFirstFile(szDir, &ffd);
 
+	do
+	{
+		if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+		{
+			LARGE_INTEGER size;
+			size.LowPart = ffd.nFileSizeLow;
+			size.HighPart = ffd.nFileSizeHigh;
 
-
+			fileList += std::to_string(index) + ". " + ffd.cFileName +
+				" - " + std::to_string(size.QuadPart) + " bytes\n";
+			files.push_back(ffd.cFileName);
+			index++;
+		}
+	} while (FindNextFile(hFind, &ffd) != 0);
 
 
 	uint16_t port = 8888;
@@ -70,22 +81,33 @@ int main(int argc, char* argv[])
 		
 		int byteSent = send(client, fileList.c_str(), fileList.length(), 0);
 
-		if (byteSent == SOCKET_ERROR)
+		char buffer[1024];
+
+		int byteRecieved = recv(client, buffer, std::size(buffer) - 1, 0);
+
+		buffer[byteRecieved] = '\0';
+		int fileIndex = std::stoi(buffer); 
+		std::string fullname = path + files[fileIndex];
+
+		FILE* file = nullptr;
+		fopen_s(&file, fullname.c_str(), "rb");
+
+		fseek(file, 0L, SEEK_END);
+		int fileSize = ftell(file);
+		fseek(file, 0L, SEEK_SET);
+
+		char* fileBuffer = (char*)malloc(fileSize * sizeof(char));
+		fread(fileBuffer, fileSize, 1, file);
+		fclose(file);
+
+		int totalSent = 0;
+		while (totalSent < fileSize)
 		{
-			printf("recv failed\n");
-			return -1;
-		}
-		if (byteSent == 0)
-		{
-			printf("Connection Closed\n");
-		}
-		else
-		{
-			
-				
-			
+			int bytesSent = send(client, fileBuffer + totalSent, fileSize - totalSent, 0);
+			totalSent += bytesSent;
 		}
 
+		send(client, fullname.c_str(), fullname.length(), 0);
 		
 		closesocket(client);
 	}

@@ -6,6 +6,7 @@
 #include <ws2tcpip.h>
 #include <cstdint>
 #include <iostream>
+#include <vector>
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -46,6 +47,7 @@ int main(int argc, char* argv[])
 	//Wait for server responce **Bocking**
 	char buffer[1024];
 	int byteRecieved = recv(mySocket, buffer, std::size(buffer) - 1, 0);
+	int file;
 
 	if (byteRecieved == SOCKET_ERROR)
 	{
@@ -60,8 +62,41 @@ int main(int argc, char* argv[])
 	else
 	{
 		buffer[byteRecieved] = '\0';
-		printf("Recieved: %s\n", buffer);
+		printf("List of files to download:\n");
+		printf("%s\n", buffer);
+		printf("Enter file number to download: ");
+		std::cin >> file;
 	}
+
+	send(mySocket, std::to_string(file).c_str(), std::to_string(file).length(), 0);
+
+	std::vector<char> receivedBuffer;
+	
+	while (byteRecieved = recv(mySocket, buffer, std::size(buffer) - 1, 0))
+	{
+		if (byteRecieved == 0)
+		{
+			break;
+		}
+
+		receivedBuffer.insert(receivedBuffer.end(), buffer, buffer + byteRecieved);
+	}
+
+	char fileName[1024];
+
+	byteRecieved = recv(mySocket, fileName, std::size(fileName), 0);
+	fileName[byteRecieved] = '\0';
+
+
+	if (!receivedBuffer.empty())
+	{
+		FILE* file = nullptr;
+		fopen_s(&file, fileName, "wb");
+
+		fwrite(receivedBuffer.data(), 1, receivedBuffer.size(), file);
+		fclose(file);
+	}
+
 
 	//close all socket
 	closesocket(mySocket);
