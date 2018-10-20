@@ -41,15 +41,7 @@ int main(int argc, char* argv[])
 
 	printf("Connected to server");
 
-
-	std::string message;
-	std::cout << "\nPlease enter your password: ";
-	std::cin >> message;
-
-	printf("Sending: %s", message.c_str());
-	
-	//Send user message
-	int byteSent = send(mySocket, message.c_str(), (int)message.length(), 0);
+	std::string itemList;
 
 	//Wait for server responce **Bocking**
 	char buffer[1024];

@@ -3,31 +3,24 @@
 #include <string>
 #include <cstdint>
 #include <iostream>
+#include <vector>
+#include <Windows.h>
 #pragma comment(lib, "Ws2_32.lib")
-
-
-
-std::string GetTextFromBuffer(char buffer[], int size)
-{
-	std::string text = "    ";
-
-	int index = 0;
-
-	while (buffer[index] != '\0')
-	{
-		text[index] += buffer[index];
-		index++;
-	}
-
-	return text;
-}
 
 
 int main(int argc, char* argv[])
 {
-	const std::string Password = "1234";
+	std::string fileList;
 
-	printf("hello world!!!");
+	std::string directory = "";
+
+	WIN32_FIND_DATA fileData;
+	HANDLE hFind;
+	int index = 1;
+
+
+
+
 
 	uint16_t port = 8888;
 	
@@ -59,32 +52,23 @@ int main(int argc, char* argv[])
 
 
 		//we do this recieve -> socket -> send -> close
-		char buffer[1024];
-		int byteRecieved = recv(client, buffer, std::size(buffer) - 1, 0);
+		
+		int byteSent = send(client, fileList.c_str(), fileList.length(), 0);
 
-		if (byteRecieved == SOCKET_ERROR)
+		if (byteSent == SOCKET_ERROR)
 		{
 			printf("recv failed\n");
 			return -1;
 		}
-		if (byteRecieved == 0)
+		if (byteSent == 0)
 		{
 			printf("Connection Closed\n");
 		}
 		else
 		{
-			buffer[byteRecieved] = '\0';
-			if (buffer == Password)
-			{
-				int byteSent = send(client, "Access Granted", std::size(buffer) - 1, 0);
-				printf("User Authenticated: %s\n", buffer);
-			}
-			else
-			{
-				int byteSent = send(client, "Access Denied", std::size(buffer) - 1, 0);
-				printf("User Not Authenticated: %s\n", buffer);
-			}
-			int byteSent = send(client, buffer, std::size(buffer) -1, 0);
+			
+				
+			
 		}
 
 		
