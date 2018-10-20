@@ -2,9 +2,10 @@
 #include <WinSock2.h>
 #include <string>
 #include <cstdint>
+#include <strsafe.h>
 #include <iostream>
 #include <vector>
-#include <Windows.h>
+#include <windows.h>
 #pragma comment(lib, "Ws2_32.lib")
 
 
@@ -12,11 +13,25 @@ int main(int argc, char* argv[])
 {
 	std::string fileList;
 
-	std::string directory = "";
+	std::string directory = "Data/";
+	TCHAR* dir = new TCHAR[directory.size()];
+	for (int index = 0; index < directory.size(); ++index)
+	{
+		dir[index] = directory[index];
+	}
 
-	WIN32_FIND_DATA fileData;
-	HANDLE hFind;
-	int index = 1;
+	WIN32_FIND_DATA ffd;
+	LARGE_INTEGER fileSize;
+	TCHAR szDir[MAX_PATH];
+	size_t length_of_arg;
+	HANDLE hFind = INVALID_HANDLE_VALUE;
+	DWORD dwError = 0;
+
+	StringCchLength(dir, MAX_PATH, &length_of_arg);
+
+	
+
+	hFind = FindFirstFile(szDir, &ffd);
 
 
 
