@@ -33,12 +33,15 @@ int main()
 		{
 			cout << "Failed to open socket" << endl;
 			WSACleanup();
+			socket.Close();
 			return 1;
 		}
 		
 		if (!socket.SetBroadcast(true))
 		{
 			cout << "Failed to start broadcast" << endl;
+			WSACleanup();
+			socket.Close();
 			return 1;
 		}
 
@@ -63,16 +66,27 @@ int main()
 	else// Client Code
 	{
 		Network::SocketAddress socketAddress;
+		
+		if (!socket.Open())
+		{
+			cout << "Failed to open socket" << endl;
+			WSACleanup();
+			socket.Close();
+			return 1;
+		}
 
 		if (!socket.SetBroadcast(true))
 		{
 			cout << "Falied to set up broadcast" << endl;
+			WSACleanup();
+			socket.Close();
 			return 1;
 		}
 
 		if (!socket.Bind(socketAddress))
 		{
 			cout << "Failed to Bind" << endl;
+			WSACleanup();
 			socket.Close();
 			return 1;
 		}
@@ -90,6 +104,9 @@ int main()
 		}
 
 	}
+
+	WSACleanup();
+	socket.Close();
 
 
 

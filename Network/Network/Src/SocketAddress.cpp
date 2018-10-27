@@ -14,14 +14,7 @@ SocketAddress::SocketAddress(const char* host, uint16_t port)
 {
 	GetAsSockAddrIn()->sin_family = AF_INET;
 	GetPort() = htons(port);
-	if (host == "0")
-	{
-		GetIP4() = INADDR_ANY;
-	}
-	else
-	{
-		inet_pton(AF_INET, host, &GetIP4());
-	}
+	inet_pton(AF_INET, host, &GetIP4());
 }
 
 SocketAddress::SocketAddress(uint16_t port)
