@@ -51,9 +51,13 @@ bool UDPSocket::Bind(const SocketAddress& fromAddress)
 
 bool UDPSocket::SetBroadcast(bool broadcast)
 {
-	//Homwork
-	//SetSockOpt - Set Socket Option (toggle the sockets mode)
-	return false;
+	int result = setsockopt(m_socket, SOL_SOCKET, SO_BROADCAST, (char*)&broadcast, sizeof(int));
+	if (result == SOCKET_ERROR)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 int UDPSocket::SendTo(const void* buffer, int len, const SocketAddress& toAddress)

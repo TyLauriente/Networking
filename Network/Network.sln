@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Network", "Network\Network.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "X", "X\X.vcxproj", "{6682BFD4-C79F-49BD-A114-6EE8FB79E8C3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Broadcast", "Broadcast\Broadcast.vcxproj", "{DCCDF3EE-4BA2-414D-92A9-0238B8022E00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{6682BFD4-C79F-49BD-A114-6EE8FB79E8C3}.Release|x64.Build.0 = Release|x64
 		{6682BFD4-C79F-49BD-A114-6EE8FB79E8C3}.Release|x86.ActiveCfg = Release|Win32
 		{6682BFD4-C79F-49BD-A114-6EE8FB79E8C3}.Release|x86.Build.0 = Release|Win32
+		{DCCDF3EE-4BA2-414D-92A9-0238B8022E00}.Debug|x64.ActiveCfg = Debug|x64
+		{DCCDF3EE-4BA2-414D-92A9-0238B8022E00}.Debug|x64.Build.0 = Debug|x64
+		{DCCDF3EE-4BA2-414D-92A9-0238B8022E00}.Debug|x86.ActiveCfg = Debug|Win32
+		{DCCDF3EE-4BA2-414D-92A9-0238B8022E00}.Debug|x86.Build.0 = Debug|Win32
+		{DCCDF3EE-4BA2-414D-92A9-0238B8022E00}.Release|x64.ActiveCfg = Release|x64
+		{DCCDF3EE-4BA2-414D-92A9-0238B8022E00}.Release|x64.Build.0 = Release|x64
+		{DCCDF3EE-4BA2-414D-92A9-0238B8022E00}.Release|x86.ActiveCfg = Release|Win32
+		{DCCDF3EE-4BA2-414D-92A9-0238B8022E00}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,7 +49,7 @@ Global
 		SolutionGuid = {9A8DFB45-1590-4844-A8F7-9150F218C7FC}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tylauriente.visualstudio.com/
 		SccLocalPath0 = .
@@ -49,5 +59,8 @@ Global
 		SccProjectUniqueName2 = X\\X.vcxproj
 		SccProjectName2 = X
 		SccLocalPath2 = X
+		SccProjectUniqueName3 = Broadcast\\Broadcast.vcxproj
+		SccProjectName3 = Broadcast
+		SccLocalPath3 = Broadcast
 	EndGlobalSection
 EndGlobal
