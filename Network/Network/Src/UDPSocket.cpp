@@ -6,7 +6,6 @@ using namespace Network;
 UDPSocket::UDPSocket()
 	: m_socket(INVALID_SOCKET)
 {
-
 }
 
 UDPSocket::~UDPSocket()
@@ -51,11 +50,15 @@ bool UDPSocket::Bind(const SocketAddress& fromAddress)
 
 bool UDPSocket::SetBroadcast(bool broadcast)
 {
-	int result = setsockopt(m_socket, SOL_SOCKET, SO_BROADCAST, (char*)&broadcast, sizeof(int));
+	int result = setsockopt(m_socket, SOL_SOCKET, SO_BROADCAST, (char*)&broadcast, sizeof(broadcast));
 	if (result == SOCKET_ERROR)
 	{
 		return false;
 	}
+
+	result = setsockopt(m_socket, SOL_SOCKET, SO_REUSEADDR, (char*)&broadcast, sizeof(broadcast));
+
+
 
 	return true;
 }

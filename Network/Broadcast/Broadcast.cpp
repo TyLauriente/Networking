@@ -7,12 +7,15 @@
 
 #pragma comment(lib, "Ws2_32.lib")
 
-int main()
+int main(int argc, int args[])
 {
 	using namespace std;
 
-	bool isServer = true;
+	const char* host = "255.255.255.255";
+	uint16_t port = 8888;
 
+
+	bool isServer = true;
 	cout << "Choose Server or Client\n0. Client\n1. Server\n> ";
 	cin >> isServer;
 
@@ -24,9 +27,6 @@ int main()
 
 	if (isServer)// Server Code
 	{
-		const char* host = "255.255.255.255";
-		uint32_t port = 8888;
-
 		Network::SocketAddress socketAddress(host, port);
 	
 		if (!socket.Open())
@@ -65,19 +65,11 @@ int main()
 	}
 	else// Client Code
 	{
-		Network::SocketAddress socketAddress;
+		Network::SocketAddress socketAddress(port);
 		
 		if (!socket.Open())
 		{
 			cout << "Failed to open socket" << endl;
-			WSACleanup();
-			socket.Close();
-			return 1;
-		}
-
-		if (!socket.SetBroadcast(true))
-		{
-			cout << "Falied to set up broadcast" << endl;
 			WSACleanup();
 			socket.Close();
 			return 1;

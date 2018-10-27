@@ -21,8 +21,8 @@ private:
 	uint32_t& GetIP4()							{ return *reinterpret_cast<uint32_t*>(&GetAsSockAddrIn()->sin_addr.S_un.S_addr); }
 	const uint32_t& GetIP4() const				{ return *reinterpret_cast<const uint32_t*>(&GetAsSockAddrIn()->sin_addr.S_un.S_addr); }
 
-	uint16_t& GetPort()							{ return *reinterpret_cast<uint16_t*>(&GetAsSockAddrIn()->sin_addr); }
-	const uint16_t& GetPort() const				{ return *reinterpret_cast<const uint16_t*>(&GetAsSockAddrIn()->sin_addr); }
+	uint16_t& GetPort()							{ return *reinterpret_cast<uint16_t*>(&GetAsSockAddrIn()->sin_port); }
+	const uint16_t& GetPort() const				{ return *reinterpret_cast<const uint16_t*>(&GetAsSockAddrIn()->sin_port); }
 
 	size_t GetSize() const						{ return sizeof(sockaddr); }
 
