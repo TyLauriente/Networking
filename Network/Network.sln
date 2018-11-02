@@ -9,6 +9,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "X", "X\X.vcxproj", "{6682BF
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Broadcast", "Broadcast\Broadcast.vcxproj", "{DCCDF3EE-4BA2-414D-92A9-0238B8022E00}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChatServer", "ChatServer\ChatServer.vcxproj", "{08409D69-7D6F-4F36-8DC4-9C7FAC3E28D8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChatClient", "ChatClient\ChatClient.vcxproj", "{37AB2E87-6AA1-4B78-A6F6-50BDD066077D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +45,22 @@ Global
 		{DCCDF3EE-4BA2-414D-92A9-0238B8022E00}.Release|x64.Build.0 = Release|x64
 		{DCCDF3EE-4BA2-414D-92A9-0238B8022E00}.Release|x86.ActiveCfg = Release|Win32
 		{DCCDF3EE-4BA2-414D-92A9-0238B8022E00}.Release|x86.Build.0 = Release|Win32
+		{08409D69-7D6F-4F36-8DC4-9C7FAC3E28D8}.Debug|x64.ActiveCfg = Debug|x64
+		{08409D69-7D6F-4F36-8DC4-9C7FAC3E28D8}.Debug|x64.Build.0 = Debug|x64
+		{08409D69-7D6F-4F36-8DC4-9C7FAC3E28D8}.Debug|x86.ActiveCfg = Debug|Win32
+		{08409D69-7D6F-4F36-8DC4-9C7FAC3E28D8}.Debug|x86.Build.0 = Debug|Win32
+		{08409D69-7D6F-4F36-8DC4-9C7FAC3E28D8}.Release|x64.ActiveCfg = Release|x64
+		{08409D69-7D6F-4F36-8DC4-9C7FAC3E28D8}.Release|x64.Build.0 = Release|x64
+		{08409D69-7D6F-4F36-8DC4-9C7FAC3E28D8}.Release|x86.ActiveCfg = Release|Win32
+		{08409D69-7D6F-4F36-8DC4-9C7FAC3E28D8}.Release|x86.Build.0 = Release|Win32
+		{37AB2E87-6AA1-4B78-A6F6-50BDD066077D}.Debug|x64.ActiveCfg = Debug|x64
+		{37AB2E87-6AA1-4B78-A6F6-50BDD066077D}.Debug|x64.Build.0 = Debug|x64
+		{37AB2E87-6AA1-4B78-A6F6-50BDD066077D}.Debug|x86.ActiveCfg = Debug|Win32
+		{37AB2E87-6AA1-4B78-A6F6-50BDD066077D}.Debug|x86.Build.0 = Debug|Win32
+		{37AB2E87-6AA1-4B78-A6F6-50BDD066077D}.Release|x64.ActiveCfg = Release|x64
+		{37AB2E87-6AA1-4B78-A6F6-50BDD066077D}.Release|x64.Build.0 = Release|x64
+		{37AB2E87-6AA1-4B78-A6F6-50BDD066077D}.Release|x86.ActiveCfg = Release|Win32
+		{37AB2E87-6AA1-4B78-A6F6-50BDD066077D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,7 +69,7 @@ Global
 		SolutionGuid = {9A8DFB45-1590-4844-A8F7-9150F218C7FC}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tylauriente.visualstudio.com/
 		SccLocalPath0 = .
@@ -62,5 +82,11 @@ Global
 		SccProjectUniqueName3 = Broadcast\\Broadcast.vcxproj
 		SccProjectName3 = Broadcast
 		SccLocalPath3 = Broadcast
+		SccProjectUniqueName4 = ChatServer\\ChatServer.vcxproj
+		SccProjectName4 = ChatServer
+		SccLocalPath4 = ChatServer
+		SccProjectUniqueName5 = ChatClient\\ChatClient.vcxproj
+		SccProjectName5 = ChatClient
+		SccLocalPath5 = ChatClient
 	EndGlobalSection
 EndGlobal
