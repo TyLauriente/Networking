@@ -103,6 +103,12 @@ void MessageDispatcher()
 		}
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		if (clients.empty())
+		{
+			messageQueueLock.lock();
+			messageQueue.clear();
+			messageQueueLock.unlock();
+		}
 	}
 }
 

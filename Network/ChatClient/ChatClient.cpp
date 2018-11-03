@@ -70,13 +70,10 @@ void ReceievMessagesFromServer(SOCKET server)
 
 		for (int index = 0; index < typedSoFar.length() + 2; ++index)
 		{
-			std::cout << '\b';
+			std::cout << "\b \b";
 		}
 		std::cout << buffer << std::endl;
-		if (typedSoFar.length() > 0)
-		{
-			std::cout << "> ";
-		}
+		std::cout << "> " + typedSoFar;
 	}
 }
 
@@ -139,8 +136,9 @@ int main()
 		return 0;
 	}
 
-	std::thread receiveMessages= std::thread(ReceievMessagesFromServer, host);
 	std::thread sendMessages = std::thread(SendMessagesToServer, host);
+	std::this_thread::sleep_for(std::chrono::microseconds(10));
+	std::thread receiveMessages= std::thread(ReceievMessagesFromServer, host);
 
 	sendMessages.join();
 	receiveMessages.join();
