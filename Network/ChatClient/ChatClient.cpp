@@ -19,34 +19,37 @@ void SendMessagesToServer(SOCKET server)
 	while (true)
 	{
 		char c = ' ';
-		c = getch();
-		if (c == '\r')//Enter key is pressed
+		c = _getch();
+		if (c != '\0')
 		{
-			typedSoFarLock.lock();
-			int sent = send(server, typedSoFar.c_str(), typedSoFar.size(), 0);
-			typedSoFar = "";
-			typedSoFarLock.unlock();
-			if (sent == SOCKET_ERROR)
+			if (c == '\r')//Enter key is pressed
 			{
-				std::cout << "Failed to send message to server\n";
-				break;
+				typedSoFarLock.lock();
+				int sent = static_cast<int>(send(server, typedSoFar.c_str(), static_cast<int>(typedSoFar.size()), 0));
+				typedSoFar = "";
+				typedSoFarLock.unlock();
+				if (sent == SOCKET_ERROR)
+				{
+					std::cout << "Failed to send message to server\n";
+					return;
+				}
+				std::cout << "\n> ";
 			}
-			std::cout << "\n> ";
-		}
-		else if (c == '\b')
-		{
-			if (typedSoFar.size() > 0)
+			else if (c == '\b')
 			{
-				typedSoFar = typedSoFar.substr(0, typedSoFar.size() - 1);
-				std::cout << "\b \b";
+				if (typedSoFar.size() > 0)
+				{
+					typedSoFar = typedSoFar.substr(0, typedSoFar.size() - 1);
+					std::cout << "\b \b";
+				}
 			}
-		}
-		else
-		{
-			typedSoFarLock.lock();
-			std::cout<<c;
-			typedSoFar += c;
-			typedSoFarLock.unlock();
+			else
+			{
+				typedSoFarLock.lock();
+				std::cout << c;
+				typedSoFar += c;
+				typedSoFarLock.unlock();
+			}
 		}
 	}
 }
@@ -64,13 +67,16 @@ void ReceievMessagesFromServer(SOCKET server)
 			break;
 		}
 		buffer[received] = '\0';
-		
+
 		for (int index = 0; index < typedSoFar.length() + 2; ++index)
 		{
 			std::cout << '\b';
 		}
 		std::cout << buffer << std::endl;
-		std::cout << "> " << typedSoFar;
+		if (typedSoFar.length() > 0)
+		{
+			std::cout << "> ";
+		}
 	}
 }
 
@@ -90,7 +96,7 @@ int main()
 
 	
 	SOCKADDR_IN serverInfo;
-	serverInfo.sin_addr.s_addr = inet_addr(ip.c_str());
+	inet_pton(AF_INET, ip.c_str(), &serverInfo.sin_addr.S_un.S_addr);
 	serverInfo.sin_family = AF_INET;
 	serverInfo.sin_port = htons(port);
 	
@@ -108,7 +114,7 @@ int main()
 
 	char buffer[1024];
 
-	int received = recv(host, buffer, std::size(buffer) - 1, 0);
+	int received = static_cast<int>(recv(host, buffer, static_cast<int>(std::size(buffer)) - 1, 0));
 
 	if (received == SOCKET_ERROR)
 	{
@@ -123,7 +129,7 @@ int main()
 	std::cout << buffer;
 	std::string name;
 	std::cin >> name;
-	int sent = send(host, name.c_str(), name.length(), 0);
+	int sent = static_cast<int>(send(host, name.c_str(), static_cast<int>(name.length()), 0));
 	if (sent == SOCKET_ERROR)
 	{
 		std::cout << "Failed to send name to server\n";

@@ -27,7 +27,7 @@ void ManageClient(SOCKET client)
 	std::string welcomeMessage = "Enter your name: ";
 	std::string name;
 	char buffer[1024];
-	int sent = send(client, welcomeMessage.c_str(), welcomeMessage.size(), 0);
+	int sent = static_cast<int>(send(client, welcomeMessage.c_str(), static_cast<int>(welcomeMessage.size()), 0));
 	if (sent == SOCKET_ERROR)
 	{
 		std::cout << "SERVER: Failed to send welcome message to client" << std::endl;
@@ -93,7 +93,7 @@ void MessageDispatcher()
 				{
 					if (message.sender != client)
 					{
-						send(client, message.text.c_str(), message.text.length(), 0);
+						send(client, message.text.c_str(), static_cast<int>(message.text.length()), 0);
 					}
 				}
 			}
