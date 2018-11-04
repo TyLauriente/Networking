@@ -13,6 +13,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChatServer", "ChatServer\Ch
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChatClient", "ChatClient\ChatClient.vcxproj", "{37AB2E87-6AA1-4B78-A6F6-50BDD066077D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloSprint", "HelloSprint\HelloSprint.vcxproj", "{5D622371-26FE-4304-9B88-A62276ABF5AF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTK_Desktop_2017", "X\External\DirectXTK\DirectXTK_Desktop_2017.vcxproj", "{CDE5A2F9-D904-4B88-B6CA-2964E9B5DBC4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui", "X\External\ImGui\ImGui.vcxproj", "{BFF9C813-01AF-43B3-A23E-2C62F332B994}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTKAudio_Desktop_2017_Win8", "X\External\DirectXTK\Audio\DirectXTKAudio_Desktop_2017_Win8.vcxproj", "{4F150A30-CECB-49D1-8283-6A3F57438CF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +69,38 @@ Global
 		{37AB2E87-6AA1-4B78-A6F6-50BDD066077D}.Release|x64.Build.0 = Release|x64
 		{37AB2E87-6AA1-4B78-A6F6-50BDD066077D}.Release|x86.ActiveCfg = Release|Win32
 		{37AB2E87-6AA1-4B78-A6F6-50BDD066077D}.Release|x86.Build.0 = Release|Win32
+		{5D622371-26FE-4304-9B88-A62276ABF5AF}.Debug|x64.ActiveCfg = Debug|x64
+		{5D622371-26FE-4304-9B88-A62276ABF5AF}.Debug|x64.Build.0 = Debug|x64
+		{5D622371-26FE-4304-9B88-A62276ABF5AF}.Debug|x86.ActiveCfg = Debug|Win32
+		{5D622371-26FE-4304-9B88-A62276ABF5AF}.Debug|x86.Build.0 = Debug|Win32
+		{5D622371-26FE-4304-9B88-A62276ABF5AF}.Release|x64.ActiveCfg = Release|x64
+		{5D622371-26FE-4304-9B88-A62276ABF5AF}.Release|x64.Build.0 = Release|x64
+		{5D622371-26FE-4304-9B88-A62276ABF5AF}.Release|x86.ActiveCfg = Release|Win32
+		{5D622371-26FE-4304-9B88-A62276ABF5AF}.Release|x86.Build.0 = Release|Win32
+		{CDE5A2F9-D904-4B88-B6CA-2964E9B5DBC4}.Debug|x64.ActiveCfg = Debug|x64
+		{CDE5A2F9-D904-4B88-B6CA-2964E9B5DBC4}.Debug|x64.Build.0 = Debug|x64
+		{CDE5A2F9-D904-4B88-B6CA-2964E9B5DBC4}.Debug|x86.ActiveCfg = Debug|Win32
+		{CDE5A2F9-D904-4B88-B6CA-2964E9B5DBC4}.Debug|x86.Build.0 = Debug|Win32
+		{CDE5A2F9-D904-4B88-B6CA-2964E9B5DBC4}.Release|x64.ActiveCfg = Release|x64
+		{CDE5A2F9-D904-4B88-B6CA-2964E9B5DBC4}.Release|x64.Build.0 = Release|x64
+		{CDE5A2F9-D904-4B88-B6CA-2964E9B5DBC4}.Release|x86.ActiveCfg = Release|Win32
+		{CDE5A2F9-D904-4B88-B6CA-2964E9B5DBC4}.Release|x86.Build.0 = Release|Win32
+		{BFF9C813-01AF-43B3-A23E-2C62F332B994}.Debug|x64.ActiveCfg = Debug|x64
+		{BFF9C813-01AF-43B3-A23E-2C62F332B994}.Debug|x64.Build.0 = Debug|x64
+		{BFF9C813-01AF-43B3-A23E-2C62F332B994}.Debug|x86.ActiveCfg = Debug|Win32
+		{BFF9C813-01AF-43B3-A23E-2C62F332B994}.Debug|x86.Build.0 = Debug|Win32
+		{BFF9C813-01AF-43B3-A23E-2C62F332B994}.Release|x64.ActiveCfg = Release|x64
+		{BFF9C813-01AF-43B3-A23E-2C62F332B994}.Release|x64.Build.0 = Release|x64
+		{BFF9C813-01AF-43B3-A23E-2C62F332B994}.Release|x86.ActiveCfg = Release|Win32
+		{BFF9C813-01AF-43B3-A23E-2C62F332B994}.Release|x86.Build.0 = Release|Win32
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Debug|x64.ActiveCfg = Debug|x64
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Debug|x64.Build.0 = Debug|x64
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Debug|x86.ActiveCfg = Debug|Win32
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Debug|x86.Build.0 = Debug|Win32
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x64.ActiveCfg = Release|x64
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x64.Build.0 = Release|x64
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x86.ActiveCfg = Release|Win32
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,7 +109,7 @@ Global
 		SolutionGuid = {9A8DFB45-1590-4844-A8F7-9150F218C7FC}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
+		SccNumberOfProjects = 10
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tylauriente.visualstudio.com/
 		SccLocalPath0 = .
@@ -88,5 +128,17 @@ Global
 		SccProjectUniqueName5 = ChatClient\\ChatClient.vcxproj
 		SccProjectName5 = ChatClient
 		SccLocalPath5 = ChatClient
+		SccProjectUniqueName6 = HelloSprint\\HelloSprint.vcxproj
+		SccProjectName6 = HelloSprint
+		SccLocalPath6 = HelloSprint
+		SccProjectUniqueName7 = X\\External\\DirectXTK\\DirectXTK_Desktop_2017.vcxproj
+		SccProjectName7 = X/External/DirectXTK
+		SccLocalPath7 = X\\External\\DirectXTK
+		SccProjectUniqueName8 = X\\External\\ImGui\\ImGui.vcxproj
+		SccProjectName8 = X/External/ImGui
+		SccLocalPath8 = X\\External\\ImGui
+		SccProjectUniqueName9 = X\\External\\DirectXTK\\Audio\\DirectXTKAudio_Desktop_2017_Win8.vcxproj
+		SccProjectName9 = X/External/DirectXTK/Audio
+		SccLocalPath9 = X\\External\\DirectXTK\\Audio
 	EndGlobalSection
 EndGlobal

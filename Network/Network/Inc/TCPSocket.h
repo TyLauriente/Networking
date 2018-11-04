@@ -15,7 +15,7 @@ public:
 	void Close();
 
 	bool Connect(const SocketAddress& address);
-	bool Bind(const SocketAddress& addrerss);
+	bool Bind(const SocketAddress& address);
 	bool Listen(int backLog = 10);
 	TCPSocket* Accept(SocketAddress& fromAddress);
 
