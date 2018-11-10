@@ -43,14 +43,41 @@ bool TCPSocket::Connect(const SocketAddress& address)
 	int error = connect(m_socket, &address.m_sockAddr, static_cast<int>(address.GetSize()));
 	if (error == INVALID_SOCKET)
 	{
-		return false;
+		int lastError = WSAGetLastError();
+		if (lastError == WSAEWOULDBLOCK)
+		{
+			fd_set write, err;
+			FD_ZERO(&write);
+			FD_ZERO(&err);
+			FD_SET(m_socket, &write);
+			FD_SET(m_socket, &err);
+
+			TIMEVAL timeout = { 10, 0 }; // timeout after 10 seconds
+			error = select(0, NULL, &write, &err, &timeout);
+			if (error == 0)
+			{
+				// Timed out
+				return false;
+			}
+			else
+			{
+				if (FD_ISSET(m_socket, &write))
+				{
+					return true;
+				}
+				if (FD_ISSET(m_socket, &err))
+				{
+					return false;
+				}
+			}
+		}
 	}
 	return true;
 }
 
 bool TCPSocket::Bind(const SocketAddress& address)
 {
-	if (m_socket == INVALID_SOCKET)
+	if (m_socket == INVALID_SOCKET && !Open())
 	{
 		return false;
 	}
@@ -78,15 +105,16 @@ bool TCPSocket::Listen(int backLog)
 
 TCPSocket* TCPSocket::Accept(SocketAddress& fromAddress)
 {
-	TCPSocket* clientSock;
-	clientSock->m_socket = accept(m_socket, &fromAddress.m_sockAddr, (int*)fromAddress.GetSize());
-	if (clientSock->m_socket == INVALID_SOCKET)
+	socklen_t socketLength = fromAddress.GetSize();
+	SOCKET newSocket = accept(m_socket, &fromAddress.m_sockAddr, &socketLength);
+	if (newSocket == INVALID_SOCKET)
 	{
-		delete clientSock;
-		clientSock = nullptr;
 		return nullptr;
 	}
-	return clientSock;
+
+	TCPSocket* newConnection = new TCPSocket();
+	newConnection->m_socket = newSocket;
+	return newConnection;
 }
 
 int TCPSocket::Send(const void* buffer, int len)
