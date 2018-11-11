@@ -7,9 +7,6 @@
     <ClInclude Include="Inc\Network.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Precompiled.h">
-      <Filter>Src</Filter>
-    </ClInclude>
     <ClInclude Include="Inc\SocketAddress.h">
       <Filter>Inc</Filter>
     </ClInclude>
@@ -21,6 +18,18 @@
     </ClInclude>
     <ClInclude Include="Inc\NetworkUtil.h">
       <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\MemoryStream.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\StreamWriter.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\StreamReader.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Precompiled.h">
+      <Filter>Src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +54,15 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\NetworkUtil.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MemoryStream.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\StreamReader.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\StreamWriter.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

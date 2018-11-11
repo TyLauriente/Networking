@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui", "X\External\ImGui\I
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTKAudio_Desktop_2017_Win8", "X\External\DirectXTK\Audio\DirectXTKAudio_Desktop_2017_Win8.vcxproj", "{4F150A30-CECB-49D1-8283-6A3F57438CF5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StreamTest", "StreamTest\StreamTest.vcxproj", "{5F1EED34-BEFB-44C3-AEE7-AB5623C522A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -101,6 +103,14 @@ Global
 		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x64.Build.0 = Release|x64
 		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x86.ActiveCfg = Release|Win32
 		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x86.Build.0 = Release|Win32
+		{5F1EED34-BEFB-44C3-AEE7-AB5623C522A0}.Debug|x64.ActiveCfg = Debug|x64
+		{5F1EED34-BEFB-44C3-AEE7-AB5623C522A0}.Debug|x64.Build.0 = Debug|x64
+		{5F1EED34-BEFB-44C3-AEE7-AB5623C522A0}.Debug|x86.ActiveCfg = Debug|Win32
+		{5F1EED34-BEFB-44C3-AEE7-AB5623C522A0}.Debug|x86.Build.0 = Debug|Win32
+		{5F1EED34-BEFB-44C3-AEE7-AB5623C522A0}.Release|x64.ActiveCfg = Release|x64
+		{5F1EED34-BEFB-44C3-AEE7-AB5623C522A0}.Release|x64.Build.0 = Release|x64
+		{5F1EED34-BEFB-44C3-AEE7-AB5623C522A0}.Release|x86.ActiveCfg = Release|Win32
+		{5F1EED34-BEFB-44C3-AEE7-AB5623C522A0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,7 +119,7 @@ Global
 		SolutionGuid = {9A8DFB45-1590-4844-A8F7-9150F218C7FC}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 10
+		SccNumberOfProjects = 11
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tylauriente.visualstudio.com/
 		SccLocalPath0 = .
@@ -140,5 +150,8 @@ Global
 		SccProjectUniqueName9 = X\\External\\DirectXTK\\Audio\\DirectXTKAudio_Desktop_2017_Win8.vcxproj
 		SccProjectName9 = X/External/DirectXTK/Audio
 		SccLocalPath9 = X\\External\\DirectXTK\\Audio
+		SccProjectUniqueName10 = StreamTest\\StreamTest.vcxproj
+		SccProjectName10 = StreamTest
+		SccLocalPath10 = StreamTest
 	EndGlobalSection
 EndGlobal
