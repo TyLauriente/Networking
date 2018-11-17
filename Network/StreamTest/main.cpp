@@ -1,6 +1,6 @@
 #include <Network.h>
 #include <cassert>
-
+/*
 class Foo
 {
 public:
@@ -27,6 +27,7 @@ public:
 	bool b;
 	std::string name;
 };
+*/
 
 int main()
 {
@@ -53,6 +54,7 @@ int main()
 	bool inB = false;
 	std::string inStr = "garbage";
 
+	/*
 	Network::MemoryStream inStream(outStream.GetData(), outStream.GetHead());
 	Network::StreamReader reader(inStream);
 	reader.Read(inI);
@@ -87,6 +89,7 @@ int main()
 	assert(myFoo.i == urFoo.i);
 	assert(myFoo.b == urFoo.b);
 	assert(myFoo.name == urFoo.name);
+	*/
 
 	return 0;
 }
