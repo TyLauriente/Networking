@@ -156,8 +156,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Inc\Common.h" />
+    <ClInclude Include="Inc\LinkingContext.h" />
     <ClInclude Include="Inc\MemoryStream.h" />
     <ClInclude Include="Inc\Network.h" />
+    <ClInclude Include="Inc\ObjectFactory.h" />
     <ClInclude Include="Inc\SocketAddress.h" />
     <ClInclude Include="Inc\NetworkUtil.h" />
     <ClInclude Include="Inc\StreamReader.h" />
@@ -167,6 +169,8 @@
     <ClInclude Include="Inc\UDPSocket.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\LinkingContext.cpp" />
+    <ClCompile Include="Src\ObjectFactory.cpp" />
     <ClCompile Include="Src\StreamReader.cpp" />
     <ClCompile Include="Src\MemoryStream.cpp" />
     <ClCompile Include="Src\NetworkUtil.cpp" />

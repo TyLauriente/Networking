@@ -16,6 +16,7 @@ public:
 
 	bool Bind(const SocketAddress& fromAddress);
 	bool SetBroadcast(bool broadcast);
+	bool SetNonBlocking(bool nonBlocking);
 
 	int SendTo(const void* buffer, int len, const SocketAddress& toAddress);
 	int ReceiveFrom(void* buffer, int len, SocketAddress& fromAddress);

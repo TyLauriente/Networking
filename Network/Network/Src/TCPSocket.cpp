@@ -33,6 +33,36 @@ void TCPSocket::Close()
 	}
 }
 
+bool TCPSocket::SetNoDelay(bool noDelay)
+{
+	if (m_socket == INVALID_SOCKET && !Open())
+	{
+		return false;
+	}
+	int delayArg = noDelay ? 1 : 0;
+	int result = setsockopt(m_socket, IPPROTO_TCP, TCP_NODELAY, (const char*)&delayArg, sizeof(int));
+	if (result == SOCKET_ERROR)
+	{
+		return false;
+	}
+	return true;
+}
+
+bool TCPSocket::SetNonBlocking(bool nonBlocking)
+{
+	if (m_socket == INVALID_SOCKET && !Open())
+	{
+		return false;
+	}
+	u_long arg = nonBlocking ? 1 : 0;
+	int result = ioctlsocket(m_socket, FIONBIO, &arg);
+	if (result == SOCKET_ERROR)
+	{
+		return false;
+	}
+	return true;
+}
+
 bool TCPSocket::Connect(const SocketAddress& address)
 {
 	if (m_socket == INVALID_SOCKET && !Open())
@@ -105,7 +135,7 @@ bool TCPSocket::Listen(int backLog)
 
 TCPSocket* TCPSocket::Accept(SocketAddress& fromAddress)
 {
-	socklen_t socketLength = fromAddress.GetSize();
+	socklen_t socketLength = (socklen_t)fromAddress.GetSize();
 	SOCKET newSocket = accept(m_socket, &fromAddress.m_sockAddr, &socketLength);
 	if (newSocket == INVALID_SOCKET)
 	{

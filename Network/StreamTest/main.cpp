@@ -1,6 +1,6 @@
-#include <Network.h>
 #include <cassert>
-/*
+#include <Network.h>
+
 class Foo
 {
 public:
@@ -27,7 +27,32 @@ public:
 	bool b;
 	std::string name;
 };
-*/
+
+class Car
+{
+public:
+	CLASS_ID(Car, 'CAR');
+
+	int position{ 0 };
+};
+
+class Tesla : public Car
+{
+public:
+	CLASS_ID(Tesla, 'TESL');
+
+	Tesla() { position = 1; }
+};
+
+class Ferrari : public Car
+{
+public:
+	CLASS_ID(Ferrari, 'FERR');
+
+	Ferrari() { position = 2; }
+};
+
+
 
 int main()
 {
@@ -54,7 +79,7 @@ int main()
 	bool inB = false;
 	std::string inStr = "garbage";
 
-	/*
+	
 	Network::MemoryStream inStream(outStream.GetData(), outStream.GetHead());
 	Network::StreamReader reader(inStream);
 	reader.Read(inI);
@@ -64,6 +89,7 @@ int main()
 	reader.Read(inB);
 	reader.Read(inStr);
 
+	
 	assert(inI == outI);
 	assert(inF == outF);
 	assert(inD == outD);
@@ -89,7 +115,60 @@ int main()
 	assert(myFoo.i == urFoo.i);
 	assert(myFoo.b == urFoo.b);
 	assert(myFoo.name == urFoo.name);
-	*/
+
+	////////////////////////////////////////////////////////////
+
+	Network::ObjectFactory objectFactory;
+	objectFactory.Register<Car>();
+	objectFactory.Register<Tesla>();
+	objectFactory.Register<Ferrari>();
+
+	Car* c = (Car*)objectFactory.CreateInstance(Car::ClassId);
+	Tesla* t = (Tesla*)objectFactory.CreateInstance(Tesla::ClassId);
+	Ferrari* f = (Ferrari*)objectFactory.CreateInstance(Ferrari::ClassId);
+
+	assert(c->position == 0);
+	assert(t->position == 1);
+	assert(f->position == 2);
+
+
+	Network::LinkingContext linkingContext;
+	int cid = linkingContext.GetNetworkId(c);
+	int tid = linkingContext.GetNetworkId(t);
+	int fid = linkingContext.GetNetworkId(f);
+
+	assert(cid == Network::LinkingContext::sInvalidId);
+	assert(tid == Network::LinkingContext::sInvalidId);
+	assert(fid == Network::LinkingContext::sInvalidId);
+	
+	Car* cc = (Car*)linkingContext.GetInstance(cid);
+	Tesla* tt = (Tesla*)linkingContext.GetInstance(tid);
+	Ferrari* ff = (Ferrari*)linkingContext.GetInstance(fid);
+
+	assert(c == cc);
+	assert(t == tt);
+	assert(f == ff);
+
+	linkingContext.Unregister(c);
+	linkingContext.Unregister(t);
+	linkingContext.Unregister(f);
+
+	Car* ccc = (Car*)linkingContext.GetInstance(cid);
+	Car* ttt = (Tesla*)linkingContext.GetInstance(tid);
+	Car* fff = (Ferrari*)linkingContext.GetInstance(fid);
+
+	assert(ccc == nullptr);
+	assert(ttt == nullptr);
+	assert(fff == nullptr);
+
+	cid = linkingContext.GetNetworkId(c);
+	cid = linkingContext.GetNetworkId(t);
+	cid = linkingContext.GetNetworkId(f);
+
+
+	assert(cid == Network::LinkingContext::sInvalidId);
+	assert(tid == Network::LinkingContext::sInvalidId);
+	assert(fid == Network::LinkingContext::sInvalidId);
 
 	return 0;
 }

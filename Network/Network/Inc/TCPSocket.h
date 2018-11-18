@@ -13,6 +13,8 @@ public:
 
 	bool Open();
 	void Close();
+	bool SetNoDelay(bool noDelay);
+	bool SetNonBlocking(bool nonBlocking);
 
 	bool Connect(const SocketAddress& address);
 	bool Bind(const SocketAddress& address);

@@ -9,5 +9,7 @@
 #include "MemoryStream.h"
 #include "StreamReader.h"
 #include "StreamWriter.h"
+#include "LinkingContext.h"
+#include "ObjectFactory.h"
 
 #pragma comment(lib, "Ws2_32.lib")

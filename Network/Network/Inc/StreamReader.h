@@ -7,14 +7,14 @@ namespace Network
 class StreamReader
 {
 public:
-	StreamReader(MemoryStream&);
+	StreamReader(MemoryStream& memoryStream);
 
 	void Read(void* object, uint32_t size);
 
 	void Read(std::string& str);
 
 	template <class T>
-	void Read(T object)
+	void Read(T& object)
 	{
 		static_assert(std::is_arithmetic_v<T> || std::is_enum_v<T>,
 			"Generic Read only supports primitive data types");
@@ -24,7 +24,10 @@ public:
 	template <class T>
 	void Read(std::vector<T>& object)
 	{
-
+		for (T& item : object)
+		{
+			Read(&object);
+		}
 	}
 
 private:

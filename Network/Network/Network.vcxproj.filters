@@ -31,6 +31,12 @@
     <ClInclude Include="Inc\Precompiled.h">
       <Filter>Src</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\LinkingContext.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\ObjectFactory.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Inc">
@@ -63,6 +69,12 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\StreamWriter.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\LinkingContext.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ObjectFactory.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

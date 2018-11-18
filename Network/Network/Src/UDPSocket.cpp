@@ -57,9 +57,22 @@ bool UDPSocket::SetBroadcast(bool broadcast)
 	}
 
 	result = setsockopt(m_socket, SOL_SOCKET, SO_REUSEADDR, (char*)&broadcast, sizeof(broadcast));
+	return true;
+}
 
-
-
+bool UDPSocket::SetNonBlocking(bool nonBlocking)
+{
+	if (m_socket == INVALID_SOCKET &&!Open())
+	{
+		return false;
+	}
+	u_long arg = nonBlocking ? 1 : 0;
+	int result = ioctlsocket(m_socket, FIONBIO, &arg);
+	if (result == SOCKET_ERROR)
+	{
+		Close();
+		return false;
+	}
 	return true;
 }
 
