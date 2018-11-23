@@ -34,6 +34,7 @@ struct Vector2
 	Vector2& operator-=(const Vector2& rhs)		{ x -= rhs.x; y -= rhs.y; return *this; }
 	Vector2& operator*=(float s)				{ x *= s; y *= s; return *this; }
 	Vector2& operator/=(float s)				{ x /= s; y /= s; return *this; }
+	bool operator==(const Vector2& other)		{ return (x == other.x && y == other.y); }
 };
 
 //----------------------------------------------------------------------------------------------------
