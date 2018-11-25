@@ -39,7 +39,7 @@ bool UDPSocket::Bind(const SocketAddress& fromAddress)
 		return false;
 	}
 
-	int result = bind(m_socket, &fromAddress.m_sockAddr, fromAddress.GetSize());
+	int result = bind(m_socket, &fromAddress.m_sockAddr, static_cast<int>(fromAddress.GetSize()));
 	if (result == SOCKET_ERROR)
 	{
 		//WSAGetLastError() returns the last error message from winsock
@@ -88,7 +88,7 @@ int UDPSocket::SendTo(const void* buffer, int len, const SocketAddress& toAddres
 	//}
 
 	int bytesSent = sendto(m_socket, static_cast<const char*>(buffer),
-		len, 0, &toAddress.m_sockAddr, toAddress.GetSize());
+		len, 0, &toAddress.m_sockAddr, static_cast<int>(toAddress.GetSize()));
 	if (bytesSent < 0)
 	{
 		return SOCKET_ERROR;
@@ -97,7 +97,7 @@ int UDPSocket::SendTo(const void* buffer, int len, const SocketAddress& toAddres
 }
 int UDPSocket::ReceiveFrom(void* buffer, int len, SocketAddress& fromAddress)
 {
-	int fromLength = fromAddress.GetSize();
+	int fromLength = static_cast<int>(fromAddress.GetSize());
 	int bytesRead = recvfrom(m_socket, static_cast<char*>(buffer), len,
 		0, &fromAddress.m_sockAddr, &fromLength);
 	if (bytesRead >= 0)

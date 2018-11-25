@@ -140,6 +140,10 @@ int main()
 	assert(cid == Network::LinkingContext::sInvalidId);
 	assert(tid == Network::LinkingContext::sInvalidId);
 	assert(fid == Network::LinkingContext::sInvalidId);
+
+	cid = linkingContext.Register(c);
+	tid = linkingContext.Register(t);
+	fid = linkingContext.Register(f);
 	
 	Car* cc = (Car*)linkingContext.GetInstance(cid);
 	Tesla* tt = (Tesla*)linkingContext.GetInstance(tid);
@@ -162,8 +166,8 @@ int main()
 	assert(fff == nullptr);
 
 	cid = linkingContext.GetNetworkId(c);
-	cid = linkingContext.GetNetworkId(t);
-	cid = linkingContext.GetNetworkId(f);
+	tid = linkingContext.GetNetworkId(t);
+	fid = linkingContext.GetNetworkId(f);
 
 
 	assert(cid == Network::LinkingContext::sInvalidId);
@@ -172,3 +176,60 @@ int main()
 
 	return 0;
 }
+
+/*
+// Snapshots
+class World
+{
+public:
+	void BuildSnapshot(Network::StreamWriter& writer)
+	{
+		// Tag packet, receiver should switch on this and decide how to handle packet
+		writer.Write('SNAP');
+
+		// Write objects
+		for (auto go : mGameObjects)
+		{
+			// Write id
+			writer.Write(mLinkingContext.GetNetworkId(go));
+
+			// Write class
+			writer.Write(go->GetClassId());
+
+			// Write data
+			go->Serialize(writer);
+		}
+	}
+
+	void ApplySnapshot(Network::StreamReader& reader)
+	{
+		std::vector<GameObject*> replicatedObjects;
+		while (reader.GetRemainingDataSize() > 0)
+		{
+			int networkId, classId;
+			reader.Read(networkId);
+			reader.Read(classId);
+
+			GameObject* go = mLinkingContext.GetInstance(networkId);
+			if (go == nullptr)
+			{
+				// Create object
+				// Add to linking context
+			}
+
+			go->Deserialize(reader);
+			replicatedObjects.push_back(go);
+		}
+
+		for every go in replicatedObjects not in mGameObjects
+			// Remove from linking context
+			// Destroy object
+
+			mGameObjects = replicatedObjects;
+	}
+
+private:
+	std::vector<GameObject*> mGameObjects;
+	Network::LinkingContext mLinkingContext;
+};
+*/

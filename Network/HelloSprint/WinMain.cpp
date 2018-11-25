@@ -53,7 +53,7 @@ void Host()
 		while (true)
 		{
 			char buffer[1024];
-			int bytesReceived = otherSocket->Receive(buffer, std::size(buffer));
+			int bytesReceived = otherSocket->Receive(buffer, static_cast<int>(std::size(buffer)));
 			if (bytesReceived > 0 && bytesReceived == sizeof(Runner))
 			{
 				std::lock_guard<std::mutex> lock(mutex);
@@ -74,7 +74,7 @@ void Join(const char* hostip)
 		while (true)
 		{
 			char buffer[1024];
-			int bytesReceived = otherSocket->Receive(buffer, std::size(buffer));
+			int bytesReceived = otherSocket->Receive(buffer, static_cast<int>(std::size(buffer)));
 			if (bytesReceived > 0 && bytesReceived == sizeof(Runner))
 			{
 				std::lock_guard<std::mutex> lock(mutex);

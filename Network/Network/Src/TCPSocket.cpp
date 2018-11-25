@@ -70,8 +70,8 @@ bool TCPSocket::Connect(const SocketAddress& address)
 		return false;
 	}
 
-	int error = connect(m_socket, &address.m_sockAddr, static_cast<int>(address.GetSize()));
-	if (error == INVALID_SOCKET)
+	int result = connect(m_socket, &address.m_sockAddr, static_cast<int>(address.GetSize()));
+	if (result == INVALID_SOCKET)
 	{
 		int lastError = WSAGetLastError();
 		if (lastError == WSAEWOULDBLOCK)
@@ -83,8 +83,8 @@ bool TCPSocket::Connect(const SocketAddress& address)
 			FD_SET(m_socket, &err);
 
 			TIMEVAL timeout = { 10, 0 }; // timeout after 10 seconds
-			error = select(0, NULL, &write, &err, &timeout);
-			if (error == 0)
+			result = select(0, NULL, &write, &err, &timeout);
+			if (result == 0)
 			{
 				// Timed out
 				return false;
@@ -154,5 +154,18 @@ int TCPSocket::Send(const void* buffer, int len)
 
 int TCPSocket::Receive(void* buffer, int len)
 {
-	return recv(m_socket, (char*)buffer, len, 0);
+	int bytesRead = recv(m_socket, (char*)buffer, len, 0);
+	if (bytesRead == SOCKET_ERROR)
+	{
+		int lastError = WSAGetLastError();
+		if (lastError == WSAEWOULDBLOCK)
+		{
+			bytesRead = 0;
+		}
+		else
+		{
+			return SOCKET_ERROR;
+		}
+	}
+	return bytesRead;
 }

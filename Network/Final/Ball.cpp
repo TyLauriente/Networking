@@ -19,10 +19,10 @@ Ball::~Ball()
 void Ball::XInitialize()
 {
 	m_textureId = X::LoadTexture(DEFAULT_TEXTURE_ID);
-	SpriteWidth = X::GetSpriteWidth(m_textureId);
-	SpriteHeight = X::GetSpriteHeight(m_textureId);
-	ScreenWidth = X::GetScreenWidth();
-	ScreenHeight = X::GetScreenHeight();
+	SpriteWidth = static_cast<float>(X::GetSpriteWidth(m_textureId));
+	SpriteHeight = static_cast<float>(X::GetSpriteHeight(m_textureId));
+	ScreenWidth = static_cast<float>(X::GetScreenWidth());
+	ScreenHeight = static_cast<float>(X::GetScreenHeight());
 
 	if(m_position == X::Math::Vector2{0.0f, 0.0f})
 	{

@@ -18,7 +18,7 @@ public:
 	int Register(void* instance);
 
 	// Register an instance to a specific network id
-	void Register(void* instance, int networkId);
+	bool Register(void* instance, int networkId);
 
 	// Unregister an instance
 	void Unregister(void* instance);

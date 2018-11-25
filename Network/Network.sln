@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StreamTest", "StreamTest\St
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Final", "Final\Final.vcxproj", "{EC90B319-9094-43D7-88AE-A3C94F2F8E28}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ActionGame", "ActionGame\ActionGame.vcxproj", "{5B62341F-BDB6-4DFA-8A1C-1ED93D5F71B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -121,6 +123,14 @@ Global
 		{EC90B319-9094-43D7-88AE-A3C94F2F8E28}.Release|x64.Build.0 = Release|x64
 		{EC90B319-9094-43D7-88AE-A3C94F2F8E28}.Release|x86.ActiveCfg = Release|Win32
 		{EC90B319-9094-43D7-88AE-A3C94F2F8E28}.Release|x86.Build.0 = Release|Win32
+		{5B62341F-BDB6-4DFA-8A1C-1ED93D5F71B2}.Debug|x64.ActiveCfg = Debug|x64
+		{5B62341F-BDB6-4DFA-8A1C-1ED93D5F71B2}.Debug|x64.Build.0 = Debug|x64
+		{5B62341F-BDB6-4DFA-8A1C-1ED93D5F71B2}.Debug|x86.ActiveCfg = Debug|Win32
+		{5B62341F-BDB6-4DFA-8A1C-1ED93D5F71B2}.Debug|x86.Build.0 = Debug|Win32
+		{5B62341F-BDB6-4DFA-8A1C-1ED93D5F71B2}.Release|x64.ActiveCfg = Release|x64
+		{5B62341F-BDB6-4DFA-8A1C-1ED93D5F71B2}.Release|x64.Build.0 = Release|x64
+		{5B62341F-BDB6-4DFA-8A1C-1ED93D5F71B2}.Release|x86.ActiveCfg = Release|Win32
+		{5B62341F-BDB6-4DFA-8A1C-1ED93D5F71B2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,7 +139,7 @@ Global
 		SolutionGuid = {9A8DFB45-1590-4844-A8F7-9150F218C7FC}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
+		SccNumberOfProjects = 13
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tylauriente.visualstudio.com/
 		SccLocalPath0 = .
@@ -166,5 +176,8 @@ Global
 		SccProjectUniqueName11 = Final\\Final.vcxproj
 		SccProjectName11 = Final
 		SccLocalPath11 = Final
+		SccProjectUniqueName12 = ActionGame\\ActionGame.vcxproj
+		SccProjectName12 = ActionGame
+		SccLocalPath12 = ActionGame
 	EndGlobalSection
 EndGlobal

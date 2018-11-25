@@ -3,6 +3,10 @@
 #include <Network.h>
 #include "Common.h"
 
+#define ABSTRACT_CLASS_ID(ClassType, FourCC)\
+	static const uint32_t ClassId = FourCC;\
+	virtual uint32_t GetClassId() const { return ClassId; }
+
 #define CLASS_ID(ClassType, FourCC)\
 	static void* CreateInstance() { return new ClassType(); }\
 	static const uint32_t ClassId = FourCC;\
