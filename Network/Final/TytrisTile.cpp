@@ -17,6 +17,6 @@ void TytrisTile::XInitialize()
 	m_tiles[5] = X::LoadTexture("RedTile.png");
 	m_tiles[6] = X::LoadTexture("PurpleTile.png");
 
-	m_tileLength = X::GetSpriteWidth(m_tiles[0]);
+	m_tileLength = static_cast<float>(X::GetSpriteWidth(m_tiles[0]));
 	m_currentColor = Colors::DarkBlue;
 }

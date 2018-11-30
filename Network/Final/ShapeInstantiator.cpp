@@ -2,8 +2,9 @@
 
 
 
-ShapeInstantiator::ShapeInstantiator(std::vector<std::vector<TytrisTile>>& tileGrid)
+ShapeInstantiator::ShapeInstantiator(std::vector<std::vector<TytrisTile>>& tileGrid, bool& pushedToBoard)
 	: m_tileGrid{ tileGrid }
+	, m_shapePushedToBoard{ pushedToBoard }
 {
 
 }
@@ -36,12 +37,10 @@ void ShapeInstantiator::Update(bool tickDown)
 	}
 }
 
-X::Math::Vector2 ShapeInstantiator::InstanciateShape(Shapes shape)
+void ShapeInstantiator::InstanciateShape(Shapes shape)
 {
 	ClearShapeBuffer();
 	m_ticks = 2;
-
-	X::Math::Vector2 head;
 
 	if (shape == Shapes::LeftGun)
 	{
@@ -56,8 +55,6 @@ X::Math::Vector2 ShapeInstantiator::InstanciateShape(Shapes shape)
 
 		m_shapeBuffer[2][3].TurnOn(true);
 		m_shapeBuffer[2][3].SetColor(static_cast<Colors>(shape));
-
-		head = { BUFFER_START, 0 };
 	}
 	else if (shape == Shapes::Straight)
 	{
@@ -72,8 +69,6 @@ X::Math::Vector2 ShapeInstantiator::InstanciateShape(Shapes shape)
 
 		m_shapeBuffer[3][3].TurnOn(true);
 		m_shapeBuffer[3][3].SetColor(static_cast<Colors>(shape));
-
-		head = { BUFFER_START, 1 };
 	}
 	else if (shape == Shapes::RightSnake)
 	{
@@ -88,8 +83,6 @@ X::Math::Vector2 ShapeInstantiator::InstanciateShape(Shapes shape)
 
 		m_shapeBuffer[2][2].TurnOn(true);
 		m_shapeBuffer[2][2].SetColor(static_cast<Colors>(shape));
-
-		head = { BUFFER_START, 1 };
 	}
 	else if (shape == Shapes::Block)
 	{
@@ -104,8 +97,6 @@ X::Math::Vector2 ShapeInstantiator::InstanciateShape(Shapes shape)
 
 		m_shapeBuffer[2][3].TurnOn(true);
 		m_shapeBuffer[2][3].SetColor(static_cast<Colors>(shape));
-
-		head = { BUFFER_START + 1, 0 };
 	}
 	else if (shape == Shapes::RightGun)
 	{
@@ -121,7 +112,6 @@ X::Math::Vector2 ShapeInstantiator::InstanciateShape(Shapes shape)
 		m_shapeBuffer[2][2].TurnOn(true);
 		m_shapeBuffer[2][2].SetColor(static_cast<Colors>(shape));
 
-		head = { BUFFER_START, 1 };
 	}
 	else if (shape == Shapes::LeftSnake)
 	{
@@ -137,7 +127,6 @@ X::Math::Vector2 ShapeInstantiator::InstanciateShape(Shapes shape)
 		m_shapeBuffer[2][3].TurnOn(true);
 		m_shapeBuffer[2][3].SetColor(static_cast<Colors>(shape));
 
-		head = { BUFFER_START, 0 };	
 	}
 	else if (shape == Shapes::Pyramid)
 	{
@@ -153,10 +142,7 @@ X::Math::Vector2 ShapeInstantiator::InstanciateShape(Shapes shape)
 		m_shapeBuffer[2][3].TurnOn(true);
 		m_shapeBuffer[2][3].SetColor(static_cast<Colors>(shape));
 
-		head = { BUFFER_START, 0 };
 	}
-
-	return head;
 }
 
 void ShapeInstantiator::ClearShapeBuffer()
@@ -199,5 +185,9 @@ void ShapeInstantiator::TickBufferDown()
 			m_shapeBuffer[y][x] = m_shapeBuffer[y][x - 1];
 			m_shapeBuffer[y][x - 1].TurnOn(false);
 		}
+	}
+	if (m_ticks == 0)
+	{
+		m_shapePushedToBoard = false;
 	}
 }

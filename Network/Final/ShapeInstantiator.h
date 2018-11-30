@@ -2,10 +2,10 @@
 
 #include "TytrisTile.h"
 
-const int ROWS = 10;
-const int COLLUMNS = 20;
-const int BUFFER_SIZE = 4;
-const int BUFFER_START = 3;
+constexpr int ROWS = 10;
+constexpr int COLLUMNS = 20;
+constexpr int BUFFER_SIZE = 4;
+constexpr int BUFFER_START = 3;
 
 enum class Shapes
 {
@@ -22,22 +22,22 @@ enum class Shapes
 class ShapeInstantiator
 {
 public:
-	ShapeInstantiator(std::vector<std::vector<TytrisTile>>& tileGrid);
+	ShapeInstantiator(std::vector<std::vector<TytrisTile>>& tileGrid, bool& pushedToBoard);
 
 	void XInitialize();
 	
 	void Update(bool tickDown);
 
-	X::Math::Vector2 InstanciateShape(Shapes shape);
+	void InstanciateShape(Shapes shape);
 
 	bool CanSpawnShapes() const { return m_canSpawnShape; }
 
 private:
 	std::vector<std::vector<TytrisTile>>& m_tileGrid;
+	bool& m_shapePushedToBoard;
 	TytrisTile m_shapeBuffer[4][4];
 	uint8_t m_ticks{ 0 };
 	bool m_canSpawnShape{ true };
-	
 	
 	void ClearShapeBuffer();
 	bool PushBottomBufferRowToGrid();
