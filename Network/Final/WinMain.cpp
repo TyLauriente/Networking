@@ -1,33 +1,23 @@
 #include <XEngine.h>
 #include <Network.h>
-#include "Ball.h"
+#include "TytrisBoard.h"
 
-
-//Consts
-const float DEFAULT_GRAVITY_FORCE = 7000.0f;
-
-//Forward Decleration
 void XInitialize();
 void XTerminate();
 
-float GravityForce{ DEFAULT_GRAVITY_FORCE };
-Ball ball(GravityForce, {0.0f, 0.0});
-
+TytrisBoard board;
 
 bool Update(float deltaTime)
 {
-	ball.Update(deltaTime);
-
-
-	ball.Render();
-
+	board.Update(deltaTime);
+	board.Render();
 	return X::IsKeyPressed(X::Keys::ESCAPE);
 }
 
 
 int CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR , int)
 {
-	X::Start(/*"XConfig.h"*/);
+	X::Start("XConfig.h");
 	XInitialize();
 
 
@@ -39,7 +29,7 @@ int CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR , int)
 
 void XInitialize()
 {
-	ball.XInitialize();
+	board.XInitialize();
 }
 
 void XTerminate()

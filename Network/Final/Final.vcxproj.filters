@@ -2,9 +2,27 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="WinMain.cpp" />
-    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="TytrisBoard.cpp">
+      <Filter>TytrisBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="TytrisTile.cpp" />
+    <ClCompile Include="ShapeInstantiator.cpp" />
+    <ClCompile Include="ShapeMovement.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Ball.h" />
+    <None Include="XConfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="TytrisBoard">
+      <UniqueIdentifier>{c87a8439-1b33-4948-91f7-1882c6ee56ff}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TytrisBoard.h">
+      <Filter>TytrisBoard</Filter>
+    </ClInclude>
+    <ClInclude Include="TytrisTile.h" />
+    <ClInclude Include="ShapeInstantiator.h" />
+    <ClInclude Include="ShapeMovement.h" />
   </ItemGroup>
 </Project>

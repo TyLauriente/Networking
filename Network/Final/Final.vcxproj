@@ -159,11 +159,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="ShapeInstantiator.cpp" />
+    <ClCompile Include="ShapeMovement.cpp" />
+    <ClCompile Include="TytrisBoard.cpp" />
+    <ClCompile Include="TytrisTile.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Ball.h" />
+    <None Include="XConfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ShapeInstantiator.h" />
+    <ClInclude Include="ShapeMovement.h" />
+    <ClInclude Include="TytrisBoard.h" />
+    <ClInclude Include="TytrisTile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
