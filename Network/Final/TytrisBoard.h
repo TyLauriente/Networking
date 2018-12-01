@@ -6,7 +6,7 @@
 
 constexpr float FIRST_TILE_X_OFFSET = 69.0f;
 constexpr float FIRST_TILE_Y_OFFSET = 33.0f;
-constexpr float TICK_WAIT_TIME = 0.75f;
+constexpr float TICK_WAIT_TIME = 0.2f;
 
 struct GridPosition
 {
@@ -48,5 +48,8 @@ private:
 	void TickDown();
 	bool CanTickDown();
 	void SwapTiles(GridPosition& first, GridPosition second);
+	void ResetCurrentShape();
+	void MoveShapeLeft();
+	void MoveShapeRight();
 };
 

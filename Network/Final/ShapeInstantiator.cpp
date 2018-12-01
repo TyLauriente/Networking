@@ -28,11 +28,10 @@ void ShapeInstantiator::Update(bool tickDown)
 		if (m_ticks > 0)
 		{
 			m_ticks--;
-			if (!PushBottomBufferRowToGrid())
+			if (PushBottomBufferRowToGrid())
 			{
-				m_canSpawnShape = false;
+				TickBufferDown();
 			}
-			TickBufferDown();
 		}
 	}
 }
@@ -173,6 +172,10 @@ bool ShapeInstantiator::PushBottomBufferRowToGrid()
 			return false;
 		}
 	}
+	if (m_ticks == static_cast<uint8_t>(0))
+	{
+		m_shapePushedToBoard = true;
+	}
 	return true;
 }
 
@@ -185,9 +188,5 @@ void ShapeInstantiator::TickBufferDown()
 			m_shapeBuffer[y][x] = m_shapeBuffer[y][x - 1];
 			m_shapeBuffer[y][x - 1].TurnOn(false);
 		}
-	}
-	if (m_ticks == 0)
-	{
-		m_shapePushedToBoard = false;
 	}
 }
