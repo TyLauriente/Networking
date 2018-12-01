@@ -19,6 +19,17 @@ enum class Shapes
 	Pyramid // Purple
 };
 
+struct GridPosition
+{
+	GridPosition() = default;
+	GridPosition(uint8_t _y, uint8_t _x) : y{ _y }, x{ _x } {}
+	bool operator==(const GridPosition& other) { return (x == other.x && y == other.y); }
+
+	uint8_t y{ 0 };
+	uint8_t x{ 0 };
+};
+
+
 class ShapeInstantiator
 {
 public:

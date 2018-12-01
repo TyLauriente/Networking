@@ -8,15 +8,6 @@ constexpr float FIRST_TILE_X_OFFSET = 69.0f;
 constexpr float FIRST_TILE_Y_OFFSET = 33.0f;
 constexpr float TICK_WAIT_TIME = 0.2f;
 
-struct GridPosition
-{
-	GridPosition() = default;
-	GridPosition(uint8_t _y, uint8_t _x) : y{ _y }, x{ _x } {}
-	bool operator==(const GridPosition& other) { return (x == other.x && y == other.y); }
-
-	uint8_t y{ 0 };
-	uint8_t x{ 0 };
-};
 
 
 class TytrisBoard
@@ -47,7 +38,7 @@ private:
 	
 	void TickDown();
 	bool CanTickDown();
-	void SwapTiles(GridPosition& first, GridPosition second);
+	void SwapTiles(GridPosition first, GridPosition second);
 	void ResetCurrentShape();
 	void MoveShapeLeft();
 	void MoveShapeRight();
