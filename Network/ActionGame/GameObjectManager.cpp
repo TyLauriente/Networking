@@ -63,6 +63,7 @@ GameObject* GameObjectManager::CreateGameObject(Network::StreamReader& reader)
 	reader.Read(networkId);
 
 	GameObject* newObject = (GameObject*)m_objectFactory.CreateInstance(type);
+	newObject->XInitialize();
 	m_gameObjects.push_back(newObject);
 
 	m_linkingContext.Register(newObject, networkId);
@@ -73,11 +74,21 @@ GameObject* GameObjectManager::CreateGameObject(Network::StreamReader& reader)
 //TODO: GetId does not work right now
 void GameObjectManager::DestoryGameObject(uint32_t id)
 {
-	auto iter = std::find_if(m_gameObjects.begin(), m_gameObjects.end(), 
-		[id](GameObject* obj) { return obj->GetNetworkId() == id; });
+	auto gameObject = FindGameObject(id);
+	if (gameObject)
+	{
+		gameObject->Kill();
+	}
+}
+
+
+GameObject* GameObjectManager::FindGameObject(uint32_t networkId)
+{
+	auto iter = std::find_if(m_gameObjects.begin(), m_gameObjects.end(),
+		[networkId](GameObject* obj) { return obj->GetNetworkId() == networkId; });
 	if (iter != m_gameObjects.end())
 	{
-		(*iter)->Kill();
+		return (*iter);
 	}
 }
 

@@ -3,9 +3,15 @@
   <ItemGroup>
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
+    <ClInclude Include="ActionGame.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="Command.h" />
+    <ClInclude Include="NetworkMessage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Command.cpp" />
   </ItemGroup>
 </Project>

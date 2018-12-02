@@ -26,7 +26,7 @@ public:
 private:
 	std::unordered_map<int, void*> m_networkIdToInstanceMap;
 	std::unordered_map<void*, int> m_InstanceToNetworkIdMap;
-	int m_nextNetworkId;
+	int m_nextNetworkId{ 0 };
 
 };
 

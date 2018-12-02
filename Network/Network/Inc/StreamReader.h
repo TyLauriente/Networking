@@ -30,6 +30,11 @@ public:
 		}
 	}
 
+	uint32_t GetRemainingDataSize() const
+	{
+		return m_memoryStream.m_capacity - m_memoryStream.m_head;
+	}
+
 private:
 	MemoryStream& m_memoryStream;
 };

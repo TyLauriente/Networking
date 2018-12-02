@@ -9,6 +9,7 @@ MemoryStream::MemoryStream(uint32_t capacity)
 }
 
 MemoryStream::MemoryStream(const uint8_t* data, uint32_t size, bool takeOwnereShip)
+	: m_capacity{ size }
 {
 	if (takeOwnereShip)
 	{

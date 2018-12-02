@@ -19,6 +19,8 @@ public:
 	GameObject* CreateGameObject(Network::StreamReader& reader);
 	void DestoryGameObject(uint32_t networkId);
 
+	GameObject* FindGameObject(uint32_t networkId);
+
 	void Serialize(Network::StreamWriter& writer, bool dirtyOnly) const;
 	void Deserialize(Network::StreamReader& reader);
 

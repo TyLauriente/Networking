@@ -39,7 +39,7 @@ int LinkingContext::Register(void* instance)
 
 bool LinkingContext::Register(void* instance, int networkId)
 {
-	if (m_networkIdToInstanceMap.find(networkId) != m_networkIdToInstanceMap.end())
+	if (!(m_networkIdToInstanceMap.find(networkId) != m_networkIdToInstanceMap.end()))
 	{
 		m_networkIdToInstanceMap[networkId] = instance;
 		m_InstanceToNetworkIdMap[instance] = networkId;

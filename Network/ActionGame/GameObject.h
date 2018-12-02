@@ -10,6 +10,7 @@ public:
 	ABSTRACT_CLASS_ID(GameObject, 'GOBJ')
 	GameObject(bool sync);
 	
+	virtual void XInitialize() = 0;
 	virtual void Update(float deltaTime) = 0;
 	virtual void Draw() = 0;
 
