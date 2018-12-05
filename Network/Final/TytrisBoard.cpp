@@ -63,7 +63,7 @@ void TytrisBoard::Update(float deltaTime)
 
 	if (X::IsKeyPressed(X::Keys::SPACE))
 	{
-		m_currentShape = m_shapeInstantiator.InstanciateShape(static_cast<Shapes>(0));
+		m_currentShape = m_shapeInstantiator.InstanciateShape(static_cast<Shapes>(rand() % 7));
 		m_canMoveShape = false;
 	}
 	if (X::IsKeyPressed(X::Keys::LEFT))

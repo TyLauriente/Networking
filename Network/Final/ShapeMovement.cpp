@@ -207,34 +207,315 @@ void ShapeMovement::RotateLeft(std::vector<std::vector<TytrisTile>>& tileGrid, s
 	}
 	else if (static_cast<Shapes>(tileGrid[shape[0].y][shape[0].x].GetColor()) == Shapes::Straight)
 	{
-
+		if (shape[0].rotaion == 0)
+		{
+			if (shape[0].x > 2 && (!tileGrid[shape[2].y][shape[2].x - 1].IsOn()) && (!tileGrid[shape[2].y][shape[2].x - 2].IsOn()) &&
+				(!tileGrid[shape[2].y][shape[2].x - 3].IsOn()))
+			{
+				SwapTiles(tileGrid, shape[3], GridPosition{ static_cast<uint8_t>(shape[3].y - 2),
+					static_cast<uint8_t>(shape[3].x - 3) });
+				shape[3].y -= 2;
+				shape[3].x -= 3;
+				shape[3].rotaion = 90;
+				SwapTiles(tileGrid, shape[2], GridPosition{ static_cast<uint8_t>(shape[2].y - 1),
+					static_cast<uint8_t>(shape[2].x - 2) });
+				shape[2].y--;
+				shape[2].x -= 2;
+				shape[2].rotaion = 90;
+				SwapTiles(tileGrid, shape[1], GridPosition{ shape[1].y, static_cast<uint8_t>(shape[1].x - 1) });
+				shape[1].x--;
+				shape[1].rotaion = 90;
+				SwapTiles(tileGrid, shape[0], GridPosition{ static_cast<uint8_t>(shape[0].y + 1), shape[0].x });
+				shape[0].y++;
+				shape[0].rotaion = 90;
+			}
+		}
+		else
+		{
+			if (shape[0].y > 0 && shape[0].y < 8 && (!tileGrid[shape[0].y - 1][shape[0].x].IsOn()) &&
+				(!tileGrid[shape[0].y + 1][shape[0].x].IsOn()) && (!tileGrid[shape[0].y + 2][shape[0].x].IsOn()))
+			{
+				SwapTiles(tileGrid, shape[0], GridPosition{ static_cast<uint8_t>(shape[0].y - 1), shape[0].x });
+				shape[0].y--;
+				shape[0].rotaion = 0;
+				SwapTiles(tileGrid, shape[1], GridPosition{ shape[1].y, static_cast<uint8_t>(shape[1].x + 1) });
+				shape[1].x++;
+				shape[1].rotaion = 0;
+				SwapTiles(tileGrid, shape[2], GridPosition{ static_cast<uint8_t>(shape[2].y + 1),
+					static_cast<uint8_t>(shape[2].x + 2) });
+				shape[2].y++;
+				shape[2].x += 2;
+				shape[2].rotaion = 0;
+				SwapTiles(tileGrid, shape[3], GridPosition{ static_cast<uint8_t>(shape[3].y + 2),
+					static_cast<uint8_t>(shape[3].x + 3) });
+				shape[3].y += 2;
+				shape[3].x += 3;
+				shape[3].rotaion = 0;
+			}
+		}
 	}
-	else if (static_cast<Shapes>(tileGrid[shape[0].y][shape[0].x].GetColor()) == Shapes::Straight)
+	else if (static_cast<Shapes>(tileGrid[shape[0].y][shape[0].x].GetColor()) == Shapes::RightSnake)
 	{
-
+		if (shape[0].rotaion == 0)
+		{
+			if ((!tileGrid[shape[0].y][shape[0].x - 1].IsOn() && (!tileGrid[shape[0].y][shape[0].x - 2].IsOn())))
+			{
+				SwapTiles(tileGrid, shape[3], GridPosition{ static_cast<uint8_t>(shape[3].y - 2),
+					static_cast<uint8_t>(shape[3].x - 1) });
+				shape[3].y -= 2;
+				shape[3].x--;
+				shape[3].rotaion = 90;
+				SwapTiles(tileGrid, shape[2], GridPosition{ static_cast<uint8_t>(shape[2].y - 1), shape[2].x });
+				shape[2].y--;
+				shape[2].rotaion = 90;
+				SwapTiles(tileGrid, shape[1], GridPosition{ shape[1].y, static_cast<uint8_t>(shape[1].x - 1) });
+				shape[1].x--;
+				shape[1].rotaion = 90;
+				SwapTiles(tileGrid, shape[0], GridPosition{ static_cast<uint8_t>(shape[0].y + 1), shape[0].x });
+				shape[0].y++;
+				shape[0].rotaion = 90;
+			}
+		}
+		else if(shape[0].y < 9 && (!tileGrid[shape[0].y - 1][shape[0].x].IsOn()) &&
+			(!tileGrid[shape[1].y + 1][shape[1].x].IsOn()))
+		{
+			SwapTiles(tileGrid, shape[0], GridPosition{ static_cast<uint8_t>(shape[0].y - 1), shape[0].x });
+			shape[0].y--;
+			shape[0].rotaion = 0;
+			SwapTiles(tileGrid, shape[1], GridPosition{ shape[1].y, static_cast<uint8_t>(shape[1].x + 1) });
+			shape[1].x++;
+			shape[1].rotaion = 0;
+			SwapTiles(tileGrid, shape[2], GridPosition{ static_cast<uint8_t>(shape[2].y + 1), shape[2].x });
+			shape[2].y++;
+			shape[2].rotaion = 0;
+			SwapTiles(tileGrid, shape[3], GridPosition{ static_cast<uint8_t>(shape[3].y + 2),
+				static_cast<uint8_t>(shape[3].x + 1) });
+			shape[3].y += 2;
+			shape[3].x++;
+			shape[3].rotaion = 0;
+		}
 	}
-	else if (static_cast<Shapes>(tileGrid[shape[0].y][shape[0].x].GetColor()) == Shapes::Straight)
+	else if (static_cast<Shapes>(tileGrid[shape[0].y][shape[0].x].GetColor()) == Shapes::RightGun)
 	{
-
+		if (shape[0].rotaion == 0)
+		{
+			if ((!tileGrid[shape[3].y][shape[3].x - 1].IsOn()) && (!tileGrid[shape[1].y][shape[1].x - 2].IsOn()))
+			{
+				SwapTiles(tileGrid, shape[3], GridPosition{ static_cast<uint8_t>(shape[3].y - 1),
+					static_cast<uint8_t>(shape[3].x - 1) });
+				shape[3].y--;
+				shape[3].x--;
+				shape[3].rotaion = 90;
+				SwapTiles(tileGrid, shape[2], GridPosition{ shape[2].y, static_cast<uint8_t>(shape[2].x - 2) });
+				shape[2].x -= 2;
+				shape[2].rotaion = 90;
+				SwapTiles(tileGrid, shape[1], GridPosition{ static_cast<uint8_t>(shape[1].y + 1),
+					static_cast<uint8_t>(shape[1].x - 1) });
+				shape[1].y++;
+				shape[1].x--;
+				shape[1].rotaion = 90;
+				SwapTiles(tileGrid, shape[0], GridPosition{ static_cast<uint8_t>(shape[0].y + 2), shape[0].x });
+				shape[0].y += 2;
+				shape[0].rotaion = 90;
+			}
+		}
+		else if (shape[0].rotaion == 90)
+		{
+			if (shape[3].y > 0 && (!tileGrid[shape[0].y - 2][shape[0].x].IsOn()) &&
+				(!tileGrid[shape[1].y - 1][shape[1].x].IsOn()) && (!tileGrid[shape[1].y - 2][shape[1].x].IsOn()))
+			{
+				SwapTiles(tileGrid, shape[0], GridPosition{ static_cast<uint8_t>(shape[0].y - 2), shape[0].x });
+				shape[0].y -= 2;
+				shape[0].rotaion = 180;
+				SwapTiles(tileGrid, shape[1], GridPosition{ static_cast<uint8_t>(shape[1].y - 2), shape[1].x });
+				shape[1].y -= 2;
+				shape[1].rotaion = 180;
+				SwapTiles(tileGrid, shape[2], GridPosition{ static_cast<uint8_t>(shape[2].y - 1),
+					static_cast<uint8_t>(shape[2].x + 1) });
+				shape[2].y--;
+				shape[2].x++;
+				shape[2].rotaion = 180;
+				SwapTiles(tileGrid, shape[3], GridPosition{ static_cast<uint8_t>(shape[3].y + 1),
+					static_cast<uint8_t>(shape[3].x + 1) });
+				shape[3].y++;
+				shape[3].x++;
+				shape[3].rotaion = 180;
+			}
+		}
+		else if (shape[0].rotaion == 180)
+		{
+			if ((!tileGrid[shape[0].y + 1][shape[0].x].IsOn()) && (!tileGrid[shape[1].y][shape[1].x - 1].IsOn()))
+			{
+				SwapTiles(tileGrid, shape[0], GridPosition{ static_cast<uint8_t>(shape[0].y + 1), shape[0].x });
+				shape[0].y++;
+				shape[0].rotaion = 270;
+				SwapTiles(tileGrid, shape[1], GridPosition{ shape[1].y, static_cast<uint8_t>(shape[1].x + 1) });
+				shape[1].x++;
+				shape[1].rotaion = 270;
+				SwapTiles(tileGrid, shape[2], GridPosition{ static_cast<uint8_t>(shape[2].y - 1), shape[2].x });
+				shape[2].y--;
+				shape[2].rotaion = 270;
+				SwapTiles(tileGrid, shape[3], GridPosition{ static_cast<uint8_t>(shape[3].y - 2),
+					static_cast<uint8_t>(shape[3].x - 1) });
+				shape[3].y -= 2;
+				shape[3].x--;
+				shape[3].rotaion = 270;
+			}
+		}
+		else if(shape[0].y < 9 && (!tileGrid[shape[0].y + 1][shape[0].x].IsOn()) &&
+			(!tileGrid[shape[2].y + 2][shape[2].x].IsOn()))
+		{
+			SwapTiles(tileGrid, shape[3], GridPosition{ static_cast<uint8_t>(shape[3].y + 2),
+				static_cast<uint8_t>(shape[3].x + 1) });
+			shape[3].y += 2;
+			shape[3].x++;
+			shape[3].rotaion = 0;
+			SwapTiles(tileGrid, shape[2], GridPosition{ static_cast<uint8_t>(shape[2].y + 2),
+				static_cast<uint8_t>(shape[2].x + 1) });
+			shape[2].y += 2;
+			shape[2].x++;
+			shape[2].rotaion = 0;
+			SwapTiles(tileGrid, shape[1], shape[0]);
+			shape[1].y++;
+			shape[1].rotaion = 0;
+			shape[0].y--;
+			shape[0].rotaion = 0;
+		}
 	}
-	else if (static_cast<Shapes>(tileGrid[shape[0].y][shape[0].x].GetColor()) == Shapes::Straight)
+	else if (static_cast<Shapes>(tileGrid[shape[0].y][shape[0].x].GetColor()) == Shapes::LeftSnake)
 	{
-
+		if (shape[0].rotaion == 0)
+		{
+			if ((!tileGrid[shape[0].y][shape[0].x + 1].IsOn()) && (!tileGrid[shape[1].y][shape[1].x - 1].IsOn()))
+			{
+				SwapTiles(tileGrid, shape[0], GridPosition{ shape[0].y, static_cast<uint8_t>(shape[0].x + 1) });
+				shape[0].x++;
+				shape[0].rotaion = 90;
+				SwapTiles(tileGrid, shape[1], GridPosition{ static_cast<uint8_t>(shape[1].y - 1), shape[1].x });
+				shape[1].y--;
+				shape[1].rotaion = 90;
+				SwapTiles(tileGrid, shape[2], GridPosition{ shape[2].y, static_cast<uint8_t>(shape[2].x - 1) });
+				shape[2].x--;
+				shape[2].rotaion = 90;
+				SwapTiles(tileGrid, shape[3], GridPosition{ static_cast<uint8_t>(shape[3].y - 1),
+					static_cast<uint8_t>(shape[3].x - 2) });
+				shape[3].y--;
+				shape[3].x -= 2;
+				shape[3].rotaion = 90;
+			}
+		}
+		else if(shape[3].y < 9 && (!tileGrid[shape[0].y + 1][shape[0].x].IsOn()) &&
+			(!tileGrid[shape[0].y + 2][shape[0].x].IsOn()))
+		{
+			SwapTiles(tileGrid, shape[3], GridPosition{ static_cast<uint8_t>(shape[3].y + 1),
+				static_cast<uint8_t>(shape[3].x + 2) });
+			shape[3].y++;
+			shape[3].x += 2;
+			shape[3].rotaion = 0;
+			SwapTiles(tileGrid, shape[2], GridPosition{ shape[2].y, static_cast<uint8_t>(shape[2].x + 1) });
+			shape[2].x++;
+			shape[2].rotaion = 0;
+			SwapTiles(tileGrid, shape[1], GridPosition{ static_cast<uint8_t>(shape[1].y + 1), shape[1].x });
+			shape[1].y++;
+			shape[1].rotaion = 0;
+			SwapTiles(tileGrid, shape[0], GridPosition{ shape[0].y, static_cast<uint8_t>(shape[0].x - 1) });
+			shape[0].x--;
+			shape[0].rotaion = 0;
+		}
 	}
-	else if (static_cast<Shapes>(tileGrid[shape[0].y][shape[0].x].GetColor()) == Shapes::Straight)
+	else if (static_cast<Shapes>(tileGrid[shape[0].y][shape[0].x].GetColor()) == Shapes::Pyramid)
 	{
-
-	}
-	else if (static_cast<Shapes>(tileGrid[shape[0].y][shape[0].x].GetColor()) == Shapes::Straight)
-	{
-
+		if (shape[0].rotaion == 0)
+		{
+			if ((!tileGrid[shape[0].y][shape[0].x - 1].IsOn()) && (!tileGrid[shape[2].y][shape[2].x - 1].IsOn()))
+			{
+				SwapTiles(tileGrid, shape[3], GridPosition{ static_cast<uint8_t>(shape[3].y - 1),
+					static_cast<uint8_t>(shape[3].x - 2) });
+				shape[3].y--;
+				shape[3].x -= 2;
+				shape[3].rotaion = 90;
+				SwapTiles(tileGrid, shape[2], GridPosition{ static_cast<uint8_t>(shape[2].y - 1), shape[2].x });
+				shape[2].y--;
+				shape[2].rotaion = 90;
+				SwapTiles(tileGrid, shape[1], GridPosition{ shape[1].y, static_cast<uint8_t>(shape[1].x - 1) });
+				shape[1].x--;
+				shape[1].rotaion = 90;
+				SwapTiles(tileGrid, shape[0], GridPosition{ static_cast<uint8_t>(shape[0].y + 1), shape[0].x });
+				shape[0].y++;
+				shape[0].rotaion = 90;
+			}
+		}
+		else if (shape[0].rotaion == 90)
+		{
+			if (shape[0].y < 9 && (!tileGrid[shape[1].y + 1][shape[1].x].IsOn()))
+			{
+				SwapTiles(tileGrid, shape[0], GridPosition{ static_cast<uint8_t>(shape[0].y + 1),
+					static_cast<uint8_t>(shape[0].x - 1) });
+				shape[0].y++;
+				shape[0].x--;
+				shape[0].rotaion = 180;
+				shape[1].rotaion = 180;
+				SwapTiles(tileGrid, shape[2], GridPosition{ static_cast<uint8_t>(shape[2].y + 1),
+					static_cast<uint8_t>(shape[2].x + 1) });
+				shape[2].y++;
+				shape[2].x++;
+				shape[2].rotaion = 180;
+				SwapTiles(tileGrid, shape[3], GridPosition{ static_cast<uint8_t>(shape[3].y - 1),
+					static_cast<uint8_t>(shape[3].x + 1) });
+				shape[3].y--;
+				shape[3].x++;
+				shape[3].rotaion = 180;
+			}
+		}
+		else if (shape[0].rotaion == 180)
+		{
+			if (!tileGrid[shape[1].y][shape[1].x - 1].IsOn())
+			{
+				SwapTiles(tileGrid, shape[0], GridPosition{ static_cast<uint8_t>(shape[0].y - 1),
+					static_cast<uint8_t>(shape[0].x - 1) });
+				shape[0].y--;
+				shape[0].x--;
+				shape[0].rotaion = 270;
+				shape[1].rotaion = 270;
+				SwapTiles(tileGrid, shape[2], GridPosition{ static_cast<uint8_t>(shape[2].y + 1),
+					static_cast<uint8_t>(shape[2].x - 1) });
+				shape[2].y++;
+				shape[2].x--;
+				shape[2].rotaion = 270;
+				SwapTiles(tileGrid, shape[3], GridPosition{ static_cast<uint8_t>(shape[3].y + 1),
+					static_cast<uint8_t>(shape[3].x + 1) });
+				shape[3].y++;
+				shape[3].x++;
+				shape[3].rotaion = 270;
+			}
+		}
+		else if(shape[0].y > 0 && (!tileGrid[shape[3].y - 1][shape[3].x].IsOn()) &&
+			(!tileGrid[shape[3].y + 1][shape[3].x].IsOn()))
+		{
+			SwapTiles(tileGrid, shape[0], GridPosition{ static_cast<uint8_t>(shape[0].y - 1),
+				static_cast<uint8_t>(shape[0].x + 2) });
+			shape[0].y--;
+			shape[0].x += 2;
+			shape[0].rotaion = 0;
+			SwapTiles(tileGrid, shape[3], GridPosition{ static_cast<uint8_t>(shape[3].y + 1), shape[3].x });
+			shape[3].y++;
+			shape[3].rotaion = 0;
+			SwapTiles(tileGrid, shape[1], GridPosition{ shape[1].y, static_cast<uint8_t>(shape[1].x + 1) });
+			shape[1].x++;
+			shape[1].rotaion = 0;
+			SwapTiles(tileGrid, shape[2], GridPosition{ static_cast<uint8_t>(shape[2].y - 1), shape[2].x });
+			shape[2].y--;
+			shape[2].rotaion = 0;
+		}
 	}
 }
 
 void ShapeMovement::RotateRight(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition>& shape)
 {
-	shape;
-	tileGrid;
+	for (uint8_t i = 0; i < 3; ++i)
+	{
+		RotateLeft(tileGrid, shape);
+	}
 }
 
 bool ShapeMovement::CanTickDown(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition> shape)
