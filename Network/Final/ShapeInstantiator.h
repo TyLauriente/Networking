@@ -2,10 +2,10 @@
 
 #include "TytrisTile.h"
 
-constexpr int ROWS = 10;
-constexpr int COLLUMNS = 20;
-constexpr int BUFFER_SIZE = 4;
-constexpr int BUFFER_START = 3;
+constexpr uint8_t ROWS = 10;
+constexpr uint8_t COLLUMNS = 20;
+constexpr uint8_t BUFFER_SIZE = 4;
+constexpr uint8_t BUFFER_START = 3;
 
 enum class Shapes
 {
@@ -22,11 +22,12 @@ enum class Shapes
 struct GridPosition
 {
 	GridPosition() = default;
-	GridPosition(uint8_t _y, uint8_t _x) : y{ _y }, x{ _x } {}
+	GridPosition(uint8_t _y, uint8_t _x, uint8_t _rotation = 0) : y{ _y }, x{ _x }, rotaion{ _rotation } {}
 	bool operator==(const GridPosition& other) { return (x == other.x && y == other.y); }
 
 	uint8_t y{ 0 };
 	uint8_t x{ 0 };
+	uint32_t rotaion{ 0 };
 };
 
 
@@ -39,7 +40,7 @@ public:
 	
 	void Update(bool tickDown);
 
-	void InstanciateShape(Shapes shape);
+	std::vector<GridPosition> InstanciateShape(Shapes shape);
 
 	bool CanSpawnShapes() const { return m_canSpawnShape; }
 

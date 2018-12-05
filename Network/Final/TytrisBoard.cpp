@@ -23,12 +23,6 @@ void TytrisBoard::XInitialize()
 	for (uint8_t y = 0; y < ROWS; ++y)
 	{
 		m_tileGrid[y].resize(COLLUMNS);
-		//m_tileGrid.push_back(std::vector<TytrisTile>());
-		//m_tileGrid[y].resize(COLLUMNS);
-		//for (uint8_t x = 0; x < COLLUMNS; ++x)
-		//{
-		//	m_tileGrid[y].push_back(TytrisTile());
-		//}
 	}
 
 	X::Math::Vector2 position;
@@ -57,7 +51,7 @@ void TytrisBoard::Update(float deltaTime)
 		m_tickTimer = 0.0f;
 		if (m_canMoveShape)
 		{
-			TickDown();
+			m_shapeMovment.TickDown(m_tileGrid, m_currentShape);
 		}
   		m_shapeInstantiator.Update(true);
 		if (m_shapePushedToBoard)
@@ -69,15 +63,21 @@ void TytrisBoard::Update(float deltaTime)
 
 	if (X::IsKeyPressed(X::Keys::SPACE))
 	{
-		ResetCurrentShape();
-		m_shapeInstantiator.InstanciateShape(static_cast<Shapes>(rand() % 7));
+		m_currentShape = m_shapeInstantiator.InstanciateShape(static_cast<Shapes>(0));
 		m_canMoveShape = false;
 	}
 	if (X::IsKeyPressed(X::Keys::LEFT))
 	{
-		MoveShapeLeft();
+		m_shapeMovment.MoveLeft(m_tileGrid, m_currentShape);
 	}
-
+	if (X::IsKeyPressed(X::Keys::RIGHT))
+	{
+		m_shapeMovment.MoveRight(m_tileGrid, m_currentShape);
+	}
+	if (X::IsKeyPressed(X::Keys::DOWN))
+	{
+		m_shapeMovment.RotateLeft(m_tileGrid, m_currentShape);
+	}
 }
 
 void TytrisBoard::Render()
@@ -91,90 +91,4 @@ void TytrisBoard::Render()
 			m_tileGrid[y][x].Render();
 		}
 	}
-}
-
-void TytrisBoard::TickDown()
-{
-	if (CanTickDown())
-	{
-		for (auto it = m_currentShape.rbegin(); it != m_currentShape.rend(); ++it)
-		{
-			if ((*it).x + 1 < COLLUMNS)
-			{
-				SwapTiles((*it), GridPosition{ (*it).y,
-					static_cast<uint8_t>((*it).x + 1) });
-				(*it).x++;
-			}
-		}
-	}
-}
-
-bool TytrisBoard::CanTickDown()
-{
-	bool canTick{ true };
-
-	for (const auto& pos : m_currentShape)
-	{
-		if (!m_tileGrid[pos.y][pos.x].IsOn())
-		{
-			continue;
-		}
-
-		if (pos.x == COLLUMNS - 1 || (m_tileGrid[pos.y][static_cast<uint8_t>(pos.x + 1)].IsOn() &&
-			!(std::find(m_currentShape.begin(), m_currentShape.end(), 
-				GridPosition{ pos.y, static_cast<uint8_t>(pos.x + 1) }) != m_currentShape.end())))
-		{
-			canTick = false;
-			break;
-		}
-	}
-	return canTick;
-}
-
-void TytrisBoard::SwapTiles(GridPosition first, GridPosition second)
-{
-	bool firstOn = m_tileGrid[first.y][first.x].IsOn();
-	m_tileGrid[first.y][first.x].TurnOn(m_tileGrid[second.y][second.x].IsOn());
-	m_tileGrid[second.y][second.x].TurnOn(firstOn);
-	Colors firstColor = m_tileGrid[first.y][first.x].GetColor();
-	m_tileGrid[first.y][first.x].SetColor(m_tileGrid[second.y][second.x].GetColor());
-	m_tileGrid[second.y][second.x].SetColor(firstColor);
-
-}
-
-void TytrisBoard::ResetCurrentShape()
-{
-	m_currentShape.clear();
-	for (uint8_t y = BUFFER_START; y < BUFFER_START + BUFFER_SIZE; ++y)
-	{
-		for (uint8_t x = 0; x < BUFFER_SIZE - 2; ++x)
-		{
-			m_currentShape.push_back({ static_cast<uint8_t>(y),
-				static_cast<uint8_t>(x) });
-		}
-	}
-}
-
-void TytrisBoard::MoveShapeLeft()
-{
-	bool canMoveLeft{ true };
-	for (const auto& pos : m_currentShape)
-	{
-		if (pos.y == 0 && m_tileGrid[pos.y][pos.x].IsOn())
-		{
-			canMoveLeft = false;
-		}
-	}
-	if (canMoveLeft)
-	{
-		for (auto& pos : m_currentShape)
-		{
-			SwapTiles(pos, GridPosition{ static_cast<uint8_t>(pos.y - 1), pos.x });
-		}
-	}
-}
-
-void TytrisBoard::MoveShapeRight()
-{
-
 }

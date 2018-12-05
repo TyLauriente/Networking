@@ -3,6 +3,7 @@
 #include <XEngine.h>
 #include "TytrisTile.h"
 #include "ShapeInstantiator.h"
+#include "ShapeMovement.h"
 
 constexpr float FIRST_TILE_X_OFFSET = 69.0f;
 constexpr float FIRST_TILE_Y_OFFSET = 33.0f;
@@ -34,13 +35,7 @@ private:
 	X::TextureId m_tytrisBoardTexture;
 	std::vector<std::vector<TytrisTile>> m_tileGrid;
 	ShapeInstantiator m_shapeInstantiator;
+	ShapeMovement m_shapeMovment;
 	float m_tickTimer{ 0.0f };
-	
-	void TickDown();
-	bool CanTickDown();
-	void SwapTiles(GridPosition first, GridPosition second);
-	void ResetCurrentShape();
-	void MoveShapeLeft();
-	void MoveShapeRight();
 };
 

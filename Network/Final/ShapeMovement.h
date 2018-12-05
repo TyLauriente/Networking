@@ -2,15 +2,27 @@
 
 #include <XEngine.h>
 #include "TytrisTile.h"
+#include "ShapeInstantiator.h"
 
 class ShapeMovement
 {
 public:
 	
-	void TickDown(std::vector<std::vector<TytrisTile>>& tileGrid);
+	void TickDown(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition>& shape);
 
-	void RotateLeft(std::vector<std::vector<TytrisTile>>& tileGrid);
+	void MoveLeft(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition>& shape);
 
-	void RotateRight(std::vector<std::vector<TytrisTile>>& tileGrid);
+	void MoveRight(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition>& shape);
+
+	void RotateLeft(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition>& shape);
+
+	void RotateRight(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition>& shape);
+
+private:
+	bool CanTickDown(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition> shape);
+	bool CanMoveLeft(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition> shape);
+	bool CanMoveRight(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition> shape);
+
+	void SwapTiles(std::vector<std::vector<TytrisTile>>& tileGrid, GridPosition first, GridPosition second);
 };
 

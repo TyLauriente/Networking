@@ -25,7 +25,7 @@ void ShapeInstantiator::Update(bool tickDown)
 {
 	if (tickDown)
 	{
-		if (m_ticks >= 0)
+		if (m_ticks > 0)
 		{
 			m_ticks--;
 			PushBottomBufferRowToGrid();
@@ -34,10 +34,12 @@ void ShapeInstantiator::Update(bool tickDown)
 	}
 }
 
-void ShapeInstantiator::InstanciateShape(Shapes shape)
+std::vector<GridPosition> ShapeInstantiator::InstanciateShape(Shapes shape)
 {
 	ClearShapeBuffer();
 	m_ticks = 2;
+
+	std::vector<GridPosition> shapeBoardPositions;
 
 	if (shape == Shapes::LeftGun)
 	{
@@ -52,6 +54,11 @@ void ShapeInstantiator::InstanciateShape(Shapes shape)
 
 		m_shapeBuffer[2][3].TurnOn(true);
 		m_shapeBuffer[2][3].SetColor(static_cast<Colors>(shape));
+
+		shapeBoardPositions.push_back({ BUFFER_START, 0 });
+		shapeBoardPositions.push_back({ BUFFER_START, 1 });
+		shapeBoardPositions.push_back({ BUFFER_START + 1, 1 });
+		shapeBoardPositions.push_back({ BUFFER_START + 2, 1 });
 	}
 	else if (shape == Shapes::Straight)
 	{
@@ -66,6 +73,11 @@ void ShapeInstantiator::InstanciateShape(Shapes shape)
 
 		m_shapeBuffer[3][3].TurnOn(true);
 		m_shapeBuffer[3][3].SetColor(static_cast<Colors>(shape));
+
+		shapeBoardPositions.push_back({ BUFFER_START, 1});
+		shapeBoardPositions.push_back({ BUFFER_START + 1, 1 });
+		shapeBoardPositions.push_back({ BUFFER_START + 2, 1 });
+		shapeBoardPositions.push_back({ BUFFER_START + 3, 1 });
 	}
 	else if (shape == Shapes::RightSnake)
 	{
@@ -80,6 +92,11 @@ void ShapeInstantiator::InstanciateShape(Shapes shape)
 
 		m_shapeBuffer[2][2].TurnOn(true);
 		m_shapeBuffer[2][2].SetColor(static_cast<Colors>(shape));
+
+		shapeBoardPositions.push_back({ BUFFER_START, 1 });
+		shapeBoardPositions.push_back({ BUFFER_START + 1, 1 });
+		shapeBoardPositions.push_back({ BUFFER_START + 1, 0 });
+		shapeBoardPositions.push_back({ BUFFER_START + 2, 0 });
 	}
 	else if (shape == Shapes::Block)
 	{
@@ -94,6 +111,11 @@ void ShapeInstantiator::InstanciateShape(Shapes shape)
 
 		m_shapeBuffer[2][3].TurnOn(true);
 		m_shapeBuffer[2][3].SetColor(static_cast<Colors>(shape));
+
+		shapeBoardPositions.push_back({ BUFFER_START + 1, 0 });
+		shapeBoardPositions.push_back({ BUFFER_START + 1, 1 });
+		shapeBoardPositions.push_back({ BUFFER_START + 2, 0 });
+		shapeBoardPositions.push_back({ BUFFER_START + 2, 1 });
 	}
 	else if (shape == Shapes::RightGun)
 	{
@@ -109,14 +131,19 @@ void ShapeInstantiator::InstanciateShape(Shapes shape)
 		m_shapeBuffer[2][2].TurnOn(true);
 		m_shapeBuffer[2][2].SetColor(static_cast<Colors>(shape));
 
+		shapeBoardPositions.push_back({ BUFFER_START, 1 });
+		shapeBoardPositions.push_back({ BUFFER_START + 1, 1 });
+		shapeBoardPositions.push_back({ BUFFER_START + 2, 1 });
+		shapeBoardPositions.push_back({ BUFFER_START + 2, 0 });
+
 	}
 	else if (shape == Shapes::LeftSnake)
 	{
 		m_shapeBuffer[0][2].TurnOn(true);
 		m_shapeBuffer[0][2].SetColor(static_cast<Colors>(shape));
 
-		m_shapeBuffer[0][3].TurnOn(true);
-		m_shapeBuffer[0][3].SetColor(static_cast<Colors>(shape));
+		m_shapeBuffer[1][2].TurnOn(true);
+		m_shapeBuffer[1][2].SetColor(static_cast<Colors>(shape));
 
 		m_shapeBuffer[1][3].TurnOn(true);
 		m_shapeBuffer[1][3].SetColor(static_cast<Colors>(shape));
@@ -124,6 +151,10 @@ void ShapeInstantiator::InstanciateShape(Shapes shape)
 		m_shapeBuffer[2][3].TurnOn(true);
 		m_shapeBuffer[2][3].SetColor(static_cast<Colors>(shape));
 
+		shapeBoardPositions.push_back({ BUFFER_START, 0 });
+		shapeBoardPositions.push_back({ BUFFER_START + 1, 0 });
+		shapeBoardPositions.push_back({ BUFFER_START + 1, 1 });
+		shapeBoardPositions.push_back({ BUFFER_START + 2, 1 });
 	}
 	else if (shape == Shapes::Pyramid)
 	{
@@ -139,7 +170,12 @@ void ShapeInstantiator::InstanciateShape(Shapes shape)
 		m_shapeBuffer[2][3].TurnOn(true);
 		m_shapeBuffer[2][3].SetColor(static_cast<Colors>(shape));
 
+		shapeBoardPositions.push_back({ BUFFER_START, 1 });
+		shapeBoardPositions.push_back({ BUFFER_START + 1, 1 });
+		shapeBoardPositions.push_back({ BUFFER_START + 1, 0 });
+		shapeBoardPositions.push_back({ BUFFER_START + 2, 1 });
 	}
+	return shapeBoardPositions;
 }
 
 void ShapeInstantiator::ClearShapeBuffer()
