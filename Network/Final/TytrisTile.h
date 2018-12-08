@@ -1,6 +1,7 @@
 #pragma once
 
 #include <XEngine.h>
+#include <Network.h>
 
 const int AMOUNT_OF_TILE_COLORS = 7;
 
@@ -39,8 +40,12 @@ public:
 
 	Colors GetColor() const { return m_currentColor; }
 
+	void Serialize(Network::StreamWriter& writer) const;
+	void Deserialize(Network::StreamReader& reader);
+
 private:
 	float m_tileLength;
+	bool m_needsNetworkUpdate{ false };
 
 	bool m_on{ false };
 	X::Math::Vector2 m_position;

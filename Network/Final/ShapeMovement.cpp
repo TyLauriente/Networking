@@ -3,7 +3,7 @@
 
 
 
-void ShapeMovement::TickDown(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition>& shape)
+bool ShapeMovement::TickDown(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition>& shape)
 {
 	if (CanTickDown(tileGrid, shape))
 	{
@@ -36,7 +36,9 @@ void ShapeMovement::TickDown(std::vector<std::vector<TytrisTile>>& tileGrid, std
 		{
 			tile.x++;
 		}
+		return true;
 	}
+	return false;
 }
 
 void ShapeMovement::MoveLeft(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition>& shape)

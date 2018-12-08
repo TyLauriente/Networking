@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="TytrisBoard.cpp">
       <Filter>TytrisBoard</Filter>
     </ClCompile>
     <ClCompile Include="TytrisTile.cpp" />
     <ClCompile Include="ShapeInstantiator.cpp" />
     <ClCompile Include="ShapeMovement.cpp" />
+    <ClCompile Include="Command.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XConfig.json" />
@@ -24,5 +24,8 @@
     <ClInclude Include="TytrisTile.h" />
     <ClInclude Include="ShapeInstantiator.h" />
     <ClInclude Include="ShapeMovement.h" />
+    <ClInclude Include="Command.h" />
+    <ClInclude Include="RenderData.h" />
+    <ClInclude Include="TytrisGame.h" />
   </ItemGroup>
 </Project>

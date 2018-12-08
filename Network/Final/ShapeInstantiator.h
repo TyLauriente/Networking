@@ -25,6 +25,21 @@ struct GridPosition
 	GridPosition(uint8_t _y, uint8_t _x, uint8_t _rotation = 0) : y{ _y }, x{ _x }, rotaion{ _rotation } {}
 	bool operator==(const GridPosition& other) { return (x == other.x && y == other.y); }
 
+	void Serialize(Network::StreamWriter& writer) const
+	{
+		writer.Write(y);
+		writer.Write(x);
+		writer.Write(rotaion);
+	}
+
+	void Deserialzie(Network::StreamReader& reader)
+	{
+		reader.Read(y);
+		reader.Read(x);
+		reader.Read(rotaion);
+	}
+
+
 	uint8_t y{ 0 };
 	uint8_t x{ 0 };
 	uint32_t rotaion{ 0 };

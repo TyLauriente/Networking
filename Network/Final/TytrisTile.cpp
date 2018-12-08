@@ -20,3 +20,17 @@ void TytrisTile::XInitialize()
 	m_tileLength = static_cast<float>(X::GetSpriteWidth(m_tiles[0]));
 	m_currentColor = Colors::DarkBlue;
 }
+
+void TytrisTile::Serialize(Network::StreamWriter& writer) const
+{
+	writer.Write(m_on);
+	writer.Write(static_cast<int>(m_currentColor));
+}
+
+void TytrisTile::Deserialize(Network::StreamReader& reader)
+{
+	reader.Read(m_on);
+	int color = static_cast<int>(m_currentColor);
+	reader.Read(color);
+	m_currentColor = static_cast<Colors>(color);
+}

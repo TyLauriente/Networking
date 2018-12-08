@@ -23,13 +23,17 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTKAudio_Desktop_2017
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StreamTest", "StreamTest\StreamTest.vcxproj", "{5F1EED34-BEFB-44C3-AEE7-AB5623C522A0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Final", "Final\Final.vcxproj", "{EC90B319-9094-43D7-88AE-A3C94F2F8E28}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TytrisGame", "Final\Final.vcxproj", "{EC90B319-9094-43D7-88AE-A3C94F2F8E28}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ActionGame", "ActionGame\ActionGame.vcxproj", "{5B62341F-BDB6-4DFA-8A1C-1ED93D5F71B2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ActionGameServer", "ActionGameServer\ActionGameServer.vcxproj", "{C71A14D1-E748-41FC-B50C-3B6F03095271}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ActionGameClient", "ActionGameClient\ActionGameClient.vcxproj", "{5D255E37-60BC-4836-9CE9-397D9214C489}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TytrisClient", "TytrisClient\TytrisClient.vcxproj", "{814A84C3-448E-4D39-80BC-8FB19DB728E6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TytrisServer", "TytrisServer\TytrisServer.vcxproj", "{DAE89834-03AD-44E0-BDEB-E14AED24A179}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -151,6 +155,22 @@ Global
 		{5D255E37-60BC-4836-9CE9-397D9214C489}.Release|x64.Build.0 = Release|x64
 		{5D255E37-60BC-4836-9CE9-397D9214C489}.Release|x86.ActiveCfg = Release|Win32
 		{5D255E37-60BC-4836-9CE9-397D9214C489}.Release|x86.Build.0 = Release|Win32
+		{814A84C3-448E-4D39-80BC-8FB19DB728E6}.Debug|x64.ActiveCfg = Debug|x64
+		{814A84C3-448E-4D39-80BC-8FB19DB728E6}.Debug|x64.Build.0 = Debug|x64
+		{814A84C3-448E-4D39-80BC-8FB19DB728E6}.Debug|x86.ActiveCfg = Debug|Win32
+		{814A84C3-448E-4D39-80BC-8FB19DB728E6}.Debug|x86.Build.0 = Debug|Win32
+		{814A84C3-448E-4D39-80BC-8FB19DB728E6}.Release|x64.ActiveCfg = Release|x64
+		{814A84C3-448E-4D39-80BC-8FB19DB728E6}.Release|x64.Build.0 = Release|x64
+		{814A84C3-448E-4D39-80BC-8FB19DB728E6}.Release|x86.ActiveCfg = Release|Win32
+		{814A84C3-448E-4D39-80BC-8FB19DB728E6}.Release|x86.Build.0 = Release|Win32
+		{DAE89834-03AD-44E0-BDEB-E14AED24A179}.Debug|x64.ActiveCfg = Debug|x64
+		{DAE89834-03AD-44E0-BDEB-E14AED24A179}.Debug|x64.Build.0 = Debug|x64
+		{DAE89834-03AD-44E0-BDEB-E14AED24A179}.Debug|x86.ActiveCfg = Debug|Win32
+		{DAE89834-03AD-44E0-BDEB-E14AED24A179}.Debug|x86.Build.0 = Debug|Win32
+		{DAE89834-03AD-44E0-BDEB-E14AED24A179}.Release|x64.ActiveCfg = Release|x64
+		{DAE89834-03AD-44E0-BDEB-E14AED24A179}.Release|x64.Build.0 = Release|x64
+		{DAE89834-03AD-44E0-BDEB-E14AED24A179}.Release|x86.ActiveCfg = Release|Win32
+		{DAE89834-03AD-44E0-BDEB-E14AED24A179}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -159,7 +179,7 @@ Global
 		SolutionGuid = {9A8DFB45-1590-4844-A8F7-9150F218C7FC}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 15
+		SccNumberOfProjects = 17
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tylauriente.visualstudio.com/
 		SccLocalPath0 = .
@@ -205,5 +225,11 @@ Global
 		SccProjectUniqueName14 = ActionGameClient\\ActionGameClient.vcxproj
 		SccProjectName14 = ActionGameClient
 		SccLocalPath14 = ActionGameClient
+		SccProjectUniqueName15 = TytrisClient\\TytrisClient.vcxproj
+		SccProjectName15 = TytrisClient
+		SccLocalPath15 = TytrisClient
+		SccProjectUniqueName16 = TytrisServer\\TytrisServer.vcxproj
+		SccProjectName16 = TytrisServer
+		SccLocalPath16 = TytrisServer
 	EndGlobalSection
 EndGlobal

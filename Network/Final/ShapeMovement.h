@@ -8,7 +8,7 @@ class ShapeMovement
 {
 public:
 	
-	void TickDown(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition>& shape);
+	bool TickDown(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition>& shape);
 
 	void MoveLeft(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition>& shape);
 
