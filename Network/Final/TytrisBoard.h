@@ -20,7 +20,7 @@ public:
 	
 	void XInitialize();
 
-	void Update(float deltaTime);
+	bool Update(float deltaTime);
 
 	void Render();
 
@@ -31,6 +31,7 @@ public:
 
 	bool NeedsNetworkPush() const { return m_needsNetworkPush; }
 	void Push() { m_needsNetworkPush = false; }
+	void Dirty() { m_needsNetworkPush = true; }
 
 	void SetPosition(X::Math::Vector2 newPosition) { m_tytrisBoardPostion = newPosition; }
 	X::Math::Vector2 GetPosition() const { return m_tytrisBoardPostion; }

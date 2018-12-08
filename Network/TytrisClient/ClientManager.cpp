@@ -40,6 +40,8 @@ void ClientManager::Terminate()
 
 void ClientManager::Update(float deltaTime)
 {
+	static float timer = 0.0f;
+	timer += deltaTime;
 	m_playerBoard.Update(deltaTime);
 	if (m_playerBoard.NeedsNetworkPush())
 	{
@@ -50,6 +52,8 @@ void ClientManager::Update(float deltaTime)
 		m_playerBoard.Push();
 		ClientManager::Get()->SendMessageToServer(memStream);
 	}
+
+
 }
 
 void ClientManager::Render()
@@ -90,7 +94,7 @@ bool ClientManager::HandleMessage()
 		Network::MemoryStream memStream(buffer, bytesReceived);
 		Network::StreamReader reader(memStream);
 
-		while (reader.GetRemainingDataSize() > 0)
+		while (reader.GetRemainingDataSize() > 0 && reader.GetRemainingDataSize() < (uint32_t)std::size(buffer))
 		{
 			uint32_t messageType;
 			reader.Read(messageType);
@@ -131,6 +135,10 @@ bool ClientManager::HandleMessage()
 						}
 					}
 				}
+				break;
+			default:
+				XASSERT(false, "What is this?");
+				break;
 			}
 		}
 	}

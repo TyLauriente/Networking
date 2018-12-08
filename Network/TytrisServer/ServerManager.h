@@ -20,7 +20,9 @@ public:
 	void Initialize();
 	void Terminate();
 
-	void Run(uint16_t port);
+	void Run(uint16_t port, int numberOfPlayers);
+
+	void SendWorldUpdates();
 
 	void BroadcastMessage(Network::MemoryStream& memStream);
 
@@ -37,5 +39,6 @@ private:
 
 	std::vector<Client> m_clients;
 	Network::TCPSocket m_listener;
+	int m_numberOfPlayers{ 1 };
 };
 

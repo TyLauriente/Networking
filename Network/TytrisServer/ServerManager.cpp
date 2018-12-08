@@ -47,8 +47,9 @@ void ServerManager::Terminate()
 	Network::Terminate();
 }
 
-void ServerManager::Run(uint16_t port)
+void ServerManager::Run(uint16_t port, int numberOfPlayers)
 {
+	m_numberOfPlayers = numberOfPlayers;
 	// Create a listener socket using TCP/IP
 	if (!m_listener.Open() || !m_listener.SetNoDelay(true) || !m_listener.SetNonBlocking(true))
 	{
@@ -65,13 +66,15 @@ void ServerManager::Run(uint16_t port)
 	while (true)
 	{
 		// Accept any incoming client connection
-		if (m_clients.size() < 3)
+		if (m_clients.size() < m_numberOfPlayers)
 		{
 			HandleNewClients();
 		}
 
 		// Check client message
 		ProcessClientMessage();
+
+		SendWorldUpdates();
 
 
 		// Sleep for 10ms
@@ -80,6 +83,28 @@ void ServerManager::Run(uint16_t port)
 
 	// Close listener socket
 	m_listener.Close();
+}
+
+void ServerManager::SendWorldUpdates()
+{
+	for (auto& client : m_clients)
+	{
+		if (client.playerBoard.NeedsNetworkPush())
+		{
+			Network::MemoryStream memStream;
+			Network::StreamWriter writer(memStream);
+			writer.Write(NetworkCommand::UpdateBoard);
+			writer.Write(client.networkId);
+			client.playerBoard.Serialize(writer);
+			for (auto& c : m_clients)
+			{
+				if (c.networkId != client.networkId)
+				{
+					c.clientSocket->Send(memStream.GetData(), memStream.GetHead());
+				}
+			}
+		}
+	}
 }
 
 void ServerManager::BroadcastMessage(Network::MemoryStream& memStream)
@@ -120,6 +145,16 @@ void ServerManager::HandleNewClients()
 
 	printf("Assigned client to be network id %d\n", clientId);
 
+
+	// Add new client
+	Client newClient;
+	newClient.clientSocket = clientSocket;
+	newClient.networkId = clientId;
+	m_clients.push_back(newClient);
+	m_clients.back().playerBoard.SetPosition({ PLAYER_X_POS[m_clients.size() - 1], PLAYER_Y_POS });
+
+
+	// Give New Client Current Player Boards
 	if (m_clients.size() > 0)
 	{
 		for (auto& client : m_clients)
@@ -130,39 +165,23 @@ void ServerManager::HandleNewClients()
 				writer.Write(NetworkCommand::AddPlayer);
 				writer.Write(client.networkId);
 				writer.Write(client.playerBoard.GetPosition().x);
-				writer.Write(client.playerBoard.GetPosition().y);
-				client.clientSocket->Send(memStream.GetData(), memStream.GetHead());
-				memStream.Reset();
-				writer.Write(NetworkCommand::UpdateBoard);
-				writer.Write(client.networkId);
-				client.playerBoard.Serialize(writer);
-				client.clientSocket->Send(memStream.GetData(), memStream.GetHead());
+				writer.Write(PLAYER_Y_POS);
 			}
 		}
-		
 	}
 
-	// Add new client
-	Client newClient;
-	newClient.clientSocket = clientSocket;
-	newClient.networkId = clientId;
-	m_clients.push_back(newClient);
-	m_clients.back().playerBoard.SetPosition({ PLAYER_X_POS[m_clients.size() - 1], PLAYER_Y_POS });
-
-	// Tell everyone about the new character
+	// Give Previous Clients the new client
 	memStream.Reset();
 	writer.Write(NetworkCommand::AddPlayer);
 	writer.Write(clientId);
-	writer.Write(PLAYER_X_POS[m_clients.size() - 1]);
-	writer.Write(PLAYER_Y_POS);
-	uint8_t index{ 0 };
+	writer.Write(m_clients.back().playerBoard.GetPosition().x);
+	writer.Write(m_clients.back().playerBoard.GetPosition().y);
 	for (auto& client : m_clients)
 	{
 		if (client.networkId != clientId)
 		{
 			client.clientSocket->Send(memStream.GetData(), memStream.GetHead());
 		}
-		++index;
 	}
 }
 
@@ -182,7 +201,7 @@ void ServerManager::ProcessClientMessage()
 			Network::MemoryStream memStream(buffer, bytesReceived);
 			Network::StreamReader reader(memStream);
 
-			while (reader.GetRemainingDataSize() > 0)
+			while (reader.GetRemainingDataSize() > 0 && reader.GetRemainingDataSize() < (uint32_t)std::size(buffer))
 			{
 				int commandType;
 				reader.Read(commandType);
@@ -190,12 +209,7 @@ void ServerManager::ProcessClientMessage()
 				{
 				case NetworkCommand::UpdateBoard:
 					client.playerBoard.Deserialzie(reader);
-					Network::MemoryStream boardUpdateStream;
-					Network::StreamWriter writer(boardUpdateStream);
-					writer.Write(NetworkCommand::UpdateBoard);
-					writer.Write(client.networkId);
-					client.playerBoard.Serialize(writer);
-					BroadcastMessage(memStream);
+					client.playerBoard.Dirty();
 					break;
 					;
 				}

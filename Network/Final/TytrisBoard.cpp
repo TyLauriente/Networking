@@ -43,7 +43,7 @@ void TytrisBoard::XInitialize()
 	m_currentShape = m_shapeInstantiator.InstanciateShape(static_cast<Shapes>(rand() % 7));
 }
 
-void TytrisBoard::Update(float deltaTime)
+bool TytrisBoard::Update(float deltaTime)
 {
 	if (!m_initialized)
 	{
@@ -105,22 +105,30 @@ void TytrisBoard::Render()
 
 void TytrisBoard::Serialize(Network::StreamWriter& writer) const
 {
-	for (auto& row : m_tileGrid)
+	for (uint16_t y = 0; y < ROWS; ++y)
 	{
-		for (auto& collumn : row)
+		for (uint16_t x = 0; x < COLLUMNS; ++x)
 		{
-			collumn.Serialize(writer);
+			m_tileGrid[y][x].Serialize(writer);
 		}
 	}
 }
 
 void TytrisBoard::Deserialzie(Network::StreamReader& reader)
 {
-	for (auto& row : m_tileGrid)
+	if (m_tileGrid.empty())
 	{
-		for (auto& collumn : row)
+		m_tileGrid.resize(ROWS);
+		for (uint8_t i = 0; i < ROWS; ++i)
 		{
-			collumn.Deserialize(reader);
+			m_tileGrid[i].resize(COLLUMNS);
+		}
+	}
+	for (uint16_t y = 0; y < ROWS; ++y)
+	{
+		for (uint16_t x = 0; x < COLLUMNS; ++x)
+		{
+			m_tileGrid[y][x].Deserialize(reader);
 		}
 	}
 }

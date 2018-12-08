@@ -23,12 +23,19 @@ void TytrisTile::XInitialize()
 
 void TytrisTile::Serialize(Network::StreamWriter& writer) const
 {
+	writer.Write(m_position.x);
+	writer.Write(m_position.y);
 	writer.Write(m_on);
-	writer.Write(m_currentColor);
+	int color = static_cast<int>(m_currentColor);
+	writer.Write(color);
 }
 
 void TytrisTile::Deserialize(Network::StreamReader& reader)
 {
+	reader.Read(m_position.x);
+	reader.Read(m_position.y);
 	reader.Read(m_on);
-	reader.Read(m_currentColor);
+	int color;
+	reader.Read(color);
+	m_currentColor = static_cast<Colors>(color);
 }
