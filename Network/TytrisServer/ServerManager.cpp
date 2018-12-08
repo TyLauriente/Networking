@@ -190,8 +190,9 @@ void ServerManager::ProcessClientMessage()
 				{
 				case NetworkCommand::UpdateBoard:
 					client.playerBoard.Deserialzie(reader);
-					memStream.Reset();
-					Network::StreamWriter writer(memStream);
+					Network::MemoryStream boardUpdateStream;
+					Network::StreamWriter writer(boardUpdateStream);
+					writer.Write(NetworkCommand::UpdateBoard);
 					writer.Write(client.networkId);
 					client.playerBoard.Serialize(writer);
 					BroadcastMessage(memStream);

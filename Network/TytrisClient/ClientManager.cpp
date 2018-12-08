@@ -117,11 +117,18 @@ bool ClientManager::HandleMessage()
 				break;
 			case NetworkCommand::UpdateBoard:
 				reader.Read(networkId);
-				for (auto& opponent : m_opponentBoards)
+				if (networkId == m_clientId)
 				{
-					if (opponent.networkId == networkId)
+					m_playerBoard.Deserialzie(reader);
+				}
+				else
+				{
+					for (auto& opponent : m_opponentBoards)
 					{
-						opponent.playerBoard.Deserialzie(reader);
+						if (opponent.networkId == networkId)
+						{
+							opponent.playerBoard.Deserialzie(reader);
+						}
 					}
 				}
 			}
