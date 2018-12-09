@@ -51,24 +51,18 @@ void ClientManager::Update(float deltaTime)
 		{
 			if (X::IsKeyPressed(X::Keys::LEFT))
 			{
-				if (m_playerBoard.SetBoardCommand(BoardCommand::MoveLeft))
-				{
-					SendBoardCommandToServer(BoardCommand::MoveLeft);
-				}
+				SendBoardCommandToServer(BoardCommand::MoveLeft);
+				m_playerBoard.SetBoardCommand(BoardCommand::MoveLeft);
 			}
 			else if (X::IsKeyPressed(X::Keys::RIGHT))
 			{
-				if (m_playerBoard.SetBoardCommand(BoardCommand::MoveRight))
-				{
-					SendBoardCommandToServer(BoardCommand::MoveRight);
-				}
+				SendBoardCommandToServer(BoardCommand::MoveRight);
+				m_playerBoard.SetBoardCommand(BoardCommand::MoveRight);
 			}
 			else if (X::IsKeyPressed(X::Keys::UP))
 			{
-				if (m_playerBoard.SetBoardCommand(BoardCommand::RotateLeft))
-				{
-					SendBoardCommandToServer(BoardCommand::RotateLeft);
-				}
+				SendBoardCommandToServer(BoardCommand::RotateLeft);
+				m_playerBoard.SetBoardCommand(BoardCommand::RotateLeft);
 			}
 		}
 		
@@ -169,11 +163,14 @@ bool ClientManager::HandleMessage()
 				reader.Read(networkId);
 				BoardCommand command;
 				reader.Read(command);
-				for (auto& opponent : m_opponentBoards)
+				if (networkId != m_clientId)
 				{
-					if (opponent.networkId != m_clientId)
+					for (auto& opponent : m_opponentBoards)
 					{
-						opponent.playerBoard.SetBoardCommand(command);
+						if (opponent.networkId == networkId)
+						{
+							opponent.playerBoard.SetBoardCommand(command);
+						}
 					}
 				}
 				break;

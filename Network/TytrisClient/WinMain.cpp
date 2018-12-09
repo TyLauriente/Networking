@@ -18,7 +18,7 @@ bool Update(float deltaTime)
 	if (gameState == GameState::Disconnected)
 	{
 		X::DrawScreenText("Disconnected...", 10.0f, 0.0f, 16.0f, X::Math::Vector4::White());
-		if (ClientManager::Get()->ConnectToServer("127.0.0.1", 8888))
+		if (ClientManager::Get()->ConnectToServer("192.168.1.74", 8888))
 		{
 			gameState = GameState::Connected;
 		}
