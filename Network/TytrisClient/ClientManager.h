@@ -19,6 +19,9 @@ public:
 	bool ConnectToServer(const char* host, uint16_t port);
 
 	bool SendMessageToServer(Network::MemoryStream& memStream);
+	void SendBoardCommandToServer(BoardCommand command);
+	void SendShapeToServer(Shapes shape);
+
 	bool HandleMessage();
 
 	uint32_t GetClientId() const { return m_clientId; }
@@ -37,5 +40,6 @@ private:
 
 	TytrisBoard m_playerBoard;
 	std::vector<Opponent> m_opponentBoards;
+	bool m_update{ false };
 };
 

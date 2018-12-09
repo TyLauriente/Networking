@@ -70,11 +70,14 @@ void ServerManager::Run(uint16_t port, int numberOfPlayers)
 		{
 			HandleNewClients();
 		}
+		else if (!m_gameStarted)
+		{
+			m_gameStarted = true;
+			StartGame();
+		}
 
 		// Check client message
 		ProcessClientMessage();
-
-		SendWorldUpdates();
 
 
 		// Sleep for 10ms
@@ -85,27 +88,6 @@ void ServerManager::Run(uint16_t port, int numberOfPlayers)
 	m_listener.Close();
 }
 
-void ServerManager::SendWorldUpdates()
-{
-	for (auto& client : m_clients)
-	{
-		if (client.playerBoard.NeedsNetworkPush())
-		{
-			Network::MemoryStream memStream;
-			Network::StreamWriter writer(memStream);
-			writer.Write(NetworkCommand::UpdateBoard);
-			writer.Write(client.networkId);
-			client.playerBoard.Serialize(writer);
-			for (auto& c : m_clients)
-			{
-				if (c.networkId != client.networkId)
-				{
-					c.clientSocket->Send(memStream.GetData(), memStream.GetHead());
-				}
-			}
-		}
-	}
-}
 
 void ServerManager::BroadcastMessage(Network::MemoryStream& memStream)
 {
@@ -113,6 +95,14 @@ void ServerManager::BroadcastMessage(Network::MemoryStream& memStream)
 	{
 		client.clientSocket->Send(memStream.GetData(), memStream.GetHead());
 	}
+}
+
+void ServerManager::StartGame()
+{
+	Network::MemoryStream stream;
+	Network::StreamWriter writer(stream);
+	writer.Write(NetworkCommand::StartGame);
+	BroadcastMessage(stream);
 }
 
 void ServerManager::HandleNewClients()
@@ -130,10 +120,10 @@ void ServerManager::HandleNewClients()
 	printf("Client joined!\n");
 
 
-	// Send client a snapshot
+	// Send SetupGame command with clients board pos
 	Network::MemoryStream memStream;
 	Network::StreamWriter writer(memStream);
-	writer.Write(NetworkCommand::StartGame);
+	writer.Write(NetworkCommand::SetupGame);
 	writer.Write(PLAYER_X_POS[m_clients.size()]);
 	writer.Write(PLAYER_Y_POS);
 
@@ -151,12 +141,12 @@ void ServerManager::HandleNewClients()
 	newClient.clientSocket = clientSocket;
 	newClient.networkId = clientId;
 	m_clients.push_back(newClient);
-	m_clients.back().playerBoard.SetPosition({ PLAYER_X_POS[m_clients.size() - 1], PLAYER_Y_POS });
 
 
 	// Give New Client Current Player Boards
 	if (m_clients.size() > 0)
 	{
+		int clientNumber{ 0 };
 		for (auto& client : m_clients)
 		{
 			if (client.networkId != clientId)
@@ -164,9 +154,11 @@ void ServerManager::HandleNewClients()
 				memStream.Reset();
 				writer.Write(NetworkCommand::AddPlayer);
 				writer.Write(client.networkId);
-				writer.Write(client.playerBoard.GetPosition().x);
+				writer.Write(PLAYER_X_POS[clientNumber]);
 				writer.Write(PLAYER_Y_POS);
+				newClient.clientSocket->Send(memStream.GetData(), memStream.GetHead());
 			}
+			clientNumber++;
 		}
 	}
 
@@ -174,8 +166,8 @@ void ServerManager::HandleNewClients()
 	memStream.Reset();
 	writer.Write(NetworkCommand::AddPlayer);
 	writer.Write(clientId);
-	writer.Write(m_clients.back().playerBoard.GetPosition().x);
-	writer.Write(m_clients.back().playerBoard.GetPosition().y);
+	writer.Write(PLAYER_X_POS[m_clients.size() - 1]);
+	writer.Write(PLAYER_Y_POS);
 	for (auto& client : m_clients)
 	{
 		if (client.networkId != clientId)
@@ -205,13 +197,28 @@ void ServerManager::ProcessClientMessage()
 			{
 				int commandType;
 				reader.Read(commandType);
+				Network::MemoryStream stream;
+				Network::StreamWriter writer(stream);
 				switch (static_cast<NetworkCommand>(commandType))
 				{
-				case NetworkCommand::UpdateBoard:
-					client.playerBoard.Deserialzie(reader);
-					client.playerBoard.Dirty();
+				case NetworkCommand::BoardCommand:
+					BoardCommand command;
+					reader.Read(command);
+					stream.Reset();
+					writer.Write(NetworkCommand::BoardCommand);
+					writer.Write(client.networkId);
+					writer.Write(command);
+					BroadcastMessage(stream);
 					break;
-					;
+				case NetworkCommand::SpawnShape:
+					Shapes shape;
+					reader.Read(shape);
+					stream.Reset();
+					writer.Write(NetworkCommand::SpawnShape);
+					writer.Write(client.networkId);
+					writer.Write(shape);
+					BroadcastMessage(stream);
+					break;
 				}
 			}
 		}

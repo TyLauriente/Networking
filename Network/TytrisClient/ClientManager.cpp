@@ -40,20 +40,44 @@ void ClientManager::Terminate()
 
 void ClientManager::Update(float deltaTime)
 {
-	static float timer = 0.0f;
-	timer += deltaTime;
-	m_playerBoard.Update(deltaTime);
-	if (m_playerBoard.NeedsNetworkPush())
+	if (m_update)
 	{
-		Network::MemoryStream memStream;
-		Network::StreamWriter writer(memStream);
-		writer.Write(NetworkCommand::UpdateBoard);
-		m_playerBoard.Serialize(writer);
-		m_playerBoard.Push();
-		ClientManager::Get()->SendMessageToServer(memStream);
+		m_playerBoard.Update(deltaTime);
+		for (auto& opponent : m_opponentBoards)
+		{
+			opponent.playerBoard.Update(deltaTime);
+		}
+		if (m_playerBoard.CanMoveShape())
+		{
+			if (X::IsKeyPressed(X::Keys::LEFT))
+			{
+				if (m_playerBoard.SetBoardCommand(BoardCommand::MoveLeft))
+				{
+					SendBoardCommandToServer(BoardCommand::MoveLeft);
+				}
+			}
+			else if (X::IsKeyPressed(X::Keys::RIGHT))
+			{
+				if (m_playerBoard.SetBoardCommand(BoardCommand::MoveRight))
+				{
+					SendBoardCommandToServer(BoardCommand::MoveRight);
+				}
+			}
+			else if (X::IsKeyPressed(X::Keys::UP))
+			{
+				if (m_playerBoard.SetBoardCommand(BoardCommand::RotateLeft))
+				{
+					SendBoardCommandToServer(BoardCommand::RotateLeft);
+				}
+			}
+		}
+		
+		if (m_playerBoard.NeedsNetworkPush())
+		{
+			SendShapeToServer(m_playerBoard.GetShapeToSpawn());
+			m_playerBoard.Push();
+		}
 	}
-
-
 }
 
 void ClientManager::Render()
@@ -80,6 +104,24 @@ bool ClientManager::SendMessageToServer(Network::MemoryStream& memStream)
 	return bytesSent != SOCKET_ERROR;
 }
 
+void ClientManager::SendBoardCommandToServer(BoardCommand command)
+{
+	Network::MemoryStream memStream;
+	Network::StreamWriter writer(memStream);
+	writer.Write(NetworkCommand::BoardCommand);
+	writer.Write(command);
+	SendMessageToServer(memStream);
+}
+
+void ClientManager::SendShapeToServer(Shapes shape)
+{
+	Network::MemoryStream memStream;
+	Network::StreamWriter writer(memStream);
+	writer.Write(NetworkCommand::SpawnShape);
+	writer.Write(shape);
+	SendMessageToServer(memStream);
+}
+
 bool ClientManager::HandleMessage()
 {
 	uint8_t buffer[16384];
@@ -102,7 +144,7 @@ bool ClientManager::HandleMessage()
 			X::Math::Vector2 newPos;
 			switch (static_cast<NetworkCommand>(messageType))
 			{
-			case NetworkCommand::StartGame:
+			case NetworkCommand::SetupGame:
 				reader.Read(newPos.x);
 				reader.Read(newPos.y);
 				m_playerBoard.SetPosition(newPos);
@@ -118,20 +160,34 @@ bool ClientManager::HandleMessage()
 				m_opponentBoards.push_back({ TytrisBoard(), static_cast<uint32_t>(networkId) });
 				m_opponentBoards.back().playerBoard.SetPosition(newPos);
 				m_opponentBoards.back().playerBoard.XInitialize();
+				m_opponentBoards.back().playerBoard.SetCanSpawnShapes(false);
 				break;
-			case NetworkCommand::UpdateBoard:
+			case NetworkCommand::StartGame:
+				m_update = true;
+				break;
+			case NetworkCommand::BoardCommand:
 				reader.Read(networkId);
-				if (networkId == m_clientId)
+				BoardCommand command;
+				reader.Read(command);
+				for (auto& opponent : m_opponentBoards)
 				{
-					m_playerBoard.Deserialzie(reader);
+					if (opponent.networkId != m_clientId)
+					{
+						opponent.playerBoard.SetBoardCommand(command);
+					}
 				}
-				else
+				break;
+			case NetworkCommand::SpawnShape:
+				reader.Read(networkId);
+				Shapes shape;
+				reader.Read(shape);
+				if (networkId != m_clientId)
 				{
 					for (auto& opponent : m_opponentBoards)
 					{
 						if (opponent.networkId == networkId)
 						{
-							opponent.playerBoard.Deserialzie(reader);
+							opponent.playerBoard.SpawnShape(shape);
 						}
 					}
 				}

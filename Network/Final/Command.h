@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Network.h>
-#include <XEngine.h>
 
 enum class BoardCommand
 {
@@ -13,24 +11,13 @@ enum class BoardCommand
 
 enum class NetworkCommand
 {
-	StartGame,
+	SetupGame,
 	AddPlayer,
-	UpdateBoard,
+	StartGame,
+	TickDown,
+	BoardCommand,
+	SpawnShape,
 	AssignId,
 	LoseGame,
 	WinGame
 };
-
-class Command
-{
-public:
-	Command() = default;
-	
-	void SetCommand(BoardCommand command) { m_commands.push_back(command); }
-
-	bool CommandActive(BoardCommand command);
-
-private:
-	std::vector<BoardCommand> m_commands;
-};
-

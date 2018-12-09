@@ -7,7 +7,6 @@
     <ClCompile Include="TytrisTile.cpp" />
     <ClCompile Include="ShapeInstantiator.cpp" />
     <ClCompile Include="ShapeMovement.cpp" />
-    <ClCompile Include="Command.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XConfig.json" />

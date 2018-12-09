@@ -20,14 +20,10 @@ public:
 	
 	void XInitialize();
 
-	bool Update(float deltaTime);
+	void Update(float deltaTime);
 
 	void Render();
 
-	void SetCommand(BoardCommand command) { m_command.SetCommand(command); }
-
-	void Serialize(Network::StreamWriter& writer) const;
-	void Deserialzie(Network::StreamReader& reader);
 
 	bool NeedsNetworkPush() const { return m_needsNetworkPush; }
 	void Push() { m_needsNetworkPush = false; }
@@ -38,6 +34,18 @@ public:
 
 	bool Initialized() const { return m_initialized; }
 
+	Shapes GetShapeToSpawn() const { return m_shapeToSpawn; }
+
+	bool SetBoardCommand(BoardCommand command);
+	
+	bool CanMoveShape() const { return m_canMoveShape; }
+
+	bool CanSpawnShapes() const { return m_canSpawnShapes; }
+	void SetCanSpawnShapes(bool spawn) { m_canSpawnShapes = spawn; }
+
+	void SpawnShape(Shapes shape) { m_currentShape = m_shapeInstantiator.InstanciateShape(shape);
+																		m_canMoveShape = false; }
+
 private:
 	float ScreenHeight;
 	float ScreenWidth;
@@ -45,8 +53,10 @@ private:
 	float BoardHeight;
 	bool m_needsNetworkPush{ false };
 	bool m_initialized{ false };
+	bool m_canSpawnShapes{ true };
 	
 	std::vector<GridPosition> m_currentShape;
+	Shapes m_shapeToSpawn;
 	bool m_shapePushedToBoard{ false };
 	bool m_canMoveShape{ false };
 	X::Math::Vector2 m_tytrisBoardPostion;
@@ -55,7 +65,5 @@ private:
 	ShapeInstantiator m_shapeInstantiator;
 	ShapeMovement m_shapeMovment;
 	float m_tickTimer{ 0.0f };
-
-	Command m_command;
 };
 

@@ -53,15 +53,15 @@ public:
 
 	void XInitialize();
 	
-	void Update(bool tickDown);
+	void Update(bool tickDown, std::vector<std::vector<TytrisTile>>& tileGrid, bool& pushedToBoard);
 
 	std::vector<GridPosition> InstanciateShape(Shapes shape);
 
 	bool CanSpawnShapes() const { return m_canSpawnShape; }
 
 private:
-	std::vector<std::vector<TytrisTile>>& m_tileGrid;
-	bool& m_shapePushedToBoard;
+	std::vector<std::vector<TytrisTile>>* m_tileGrid;
+	bool* m_shapePushedToBoard;
 	TytrisTile m_shapeBuffer[4][4];
 	uint8_t m_ticks{ 0 };
 	bool m_canSpawnShape{ true };

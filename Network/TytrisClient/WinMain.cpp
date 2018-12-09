@@ -26,6 +26,7 @@ bool Update(float deltaTime)
 	else if (gameState == GameState::Connected)
 	{
 		X::DrawScreenText("Connected", 10.0f, 0.0f, 16.0f, X::Math::Vector4::Green());
+
 		ClientManager::Get()->HandleMessage();
 		ClientManager::Get()->Update(deltaTime);
 		ClientManager::Get()->Render();

@@ -3,8 +3,8 @@
 
 
 ShapeInstantiator::ShapeInstantiator(std::vector<std::vector<TytrisTile>>& tileGrid, bool& pushedToBoard)
-	: m_tileGrid{ tileGrid }
-	, m_shapePushedToBoard{ pushedToBoard }
+	: m_tileGrid{ &tileGrid }
+	, m_shapePushedToBoard{ &pushedToBoard }
 {
 
 }
@@ -21,8 +21,10 @@ void ShapeInstantiator::XInitialize()
 }
 
 
-void ShapeInstantiator::Update(bool tickDown)
+void ShapeInstantiator::Update(bool tickDown, std::vector<std::vector<TytrisTile>>& tileGrid, bool& pushedToBoard)
 {
+	m_tileGrid = &tileGrid;
+	m_shapePushedToBoard = &pushedToBoard;
 	if (tickDown)
 	{
 		if (m_ticks > 0)
@@ -198,24 +200,24 @@ bool ShapeInstantiator::PushBottomBufferRowToGrid()
 		{
 			GridPosition first{ index, 0 };
 			GridPosition second{ index, 1 };
-			bool firstOn = m_tileGrid[first.y][first.x].IsOn();
-			m_tileGrid[first.y][first.x].TurnOn(m_tileGrid[second.y][second.x].IsOn());
-			m_tileGrid[second.y][second.x].TurnOn(firstOn);
-			Colors firstColor = m_tileGrid[first.y][first.x].GetColor();
-			m_tileGrid[first.y][first.x].SetColor(m_tileGrid[second.y][second.x].GetColor());
-			m_tileGrid[second.y][second.x].SetColor(firstColor);
+			bool firstOn = (*m_tileGrid)[first.y][first.x].IsOn();
+			(*m_tileGrid)[first.y][first.x].TurnOn((*m_tileGrid)[second.y][second.x].IsOn());
+			(*m_tileGrid)[second.y][second.x].TurnOn(firstOn);
+			Colors firstColor = (*m_tileGrid)[first.y][first.x].GetColor();
+			(*m_tileGrid)[first.y][first.x].SetColor((*m_tileGrid)[second.y][second.x].GetColor());
+			(*m_tileGrid)[second.y][second.x].SetColor(firstColor);
 		}
 	}
 	for (uint8_t index = 0; index < BUFFER_SIZE; ++index)
 	{
-		X::Math::Vector2 pos = m_tileGrid[BUFFER_START + index][0].GetPosition();
-		m_tileGrid[BUFFER_START + index][0] = m_shapeBuffer[index][BUFFER_SIZE - 1];
-		m_tileGrid[BUFFER_START + index][0].SetPoition(pos);
+		X::Math::Vector2 pos = (*m_tileGrid)[BUFFER_START + index][0].GetPosition();
+		(*m_tileGrid)[BUFFER_START + index][0] = m_shapeBuffer[index][BUFFER_SIZE - 1];
+		(*m_tileGrid)[BUFFER_START + index][0].SetPoition(pos);
 		m_shapeBuffer[index][BUFFER_SIZE - 1].TurnOn(false);
 	}
 	if (m_ticks == static_cast<uint8_t>(0))
 	{
-		m_shapePushedToBoard = true;
+		*m_shapePushedToBoard = true;
 	}
 	return true;
 }

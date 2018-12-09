@@ -165,7 +165,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Command.cpp" />
     <ClCompile Include="ShapeInstantiator.cpp" />
     <ClCompile Include="ShapeMovement.cpp" />
     <ClCompile Include="TytrisBoard.cpp" />

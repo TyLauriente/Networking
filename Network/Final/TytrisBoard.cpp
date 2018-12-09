@@ -1,5 +1,6 @@
 #include "TytrisBoard.h"
 #include <algorithm>
+#include "Command.h"
 
 
 TytrisBoard::TytrisBoard()
@@ -40,10 +41,12 @@ void TytrisBoard::XInitialize()
 		position.y = (m_tytrisBoardPostion.y - (BoardHeight * 0.5f)) + FIRST_TILE_Y_OFFSET;
 	}
 	m_shapeInstantiator.XInitialize();
-	m_currentShape = m_shapeInstantiator.InstanciateShape(static_cast<Shapes>(rand() % 7));
+	m_shapeToSpawn = static_cast<Shapes>(rand() % 7);
+	m_currentShape = m_shapeInstantiator.InstanciateShape(m_shapeToSpawn);
+	Dirty();
 }
 
-bool TytrisBoard::Update(float deltaTime)
+void TytrisBoard::Update(float deltaTime)
 {
 	if (!m_initialized)
 	{
@@ -55,35 +58,28 @@ bool TytrisBoard::Update(float deltaTime)
 		m_tickTimer = 0.0f;
 		if (m_canMoveShape)
 		{
-			if (!m_shapeMovment.TickDown(m_tileGrid, m_currentShape))
+			if (m_canSpawnShapes)
 			{
-				m_currentShape = m_shapeInstantiator.InstanciateShape(static_cast<Shapes>(rand() % 7));
-				m_canMoveShape = false;
+				if (!m_shapeMovment.TickDown(m_tileGrid, m_currentShape))
+				{
+					m_shapeToSpawn = static_cast<Shapes>(rand() % 7);
+					m_currentShape = m_shapeInstantiator.InstanciateShape(m_shapeToSpawn);
+					Dirty();
+					m_canMoveShape = false;
+
+				}
+			}
+			else
+			{
+				m_shapeMovment.TickDown(m_tileGrid, m_currentShape);
 			}
 		}
-  		m_shapeInstantiator.Update(true);
-		if (m_shapePushedToBoard)
-		{
-			m_shapePushedToBoard = false;
-			m_canMoveShape = true;
-		}
-		m_needsNetworkPush = true;
+  		m_shapeInstantiator.Update(true, m_tileGrid, m_shapePushedToBoard);
 	}
-
-	if (m_canMoveShape)
+	if (m_shapePushedToBoard)
 	{
-		if (X::IsKeyPressed(X::Keys::LEFT))
-		{
-			m_shapeMovment.MoveLeft(m_tileGrid, m_currentShape);
-		}
-		else if (X::IsKeyPressed(X::Keys::RIGHT))
-		{
-			m_shapeMovment.MoveRight(m_tileGrid, m_currentShape);
-		}
-		else if (X::IsKeyPressed(X::Keys::UP))
-		{
-			m_shapeMovment.RotateLeft(m_tileGrid, m_currentShape);
-		}
+		m_shapePushedToBoard = false;
+		m_canMoveShape = true;
 	}
 }
 
@@ -103,32 +99,23 @@ void TytrisBoard::Render()
 	}
 }
 
-void TytrisBoard::Serialize(Network::StreamWriter& writer) const
+bool TytrisBoard::SetBoardCommand(BoardCommand command)
 {
-	for (uint16_t y = 0; y < ROWS; ++y)
+	if (m_canMoveShape)
 	{
-		for (uint16_t x = 0; x < COLLUMNS; ++x)
+		if (command == BoardCommand::MoveLeft)
 		{
-			m_tileGrid[y][x].Serialize(writer);
+			m_shapeMovment.MoveLeft(m_tileGrid, m_currentShape);
 		}
-	}
-}
-
-void TytrisBoard::Deserialzie(Network::StreamReader& reader)
-{
-	if (m_tileGrid.empty())
-	{
-		m_tileGrid.resize(ROWS);
-		for (uint8_t i = 0; i < ROWS; ++i)
+		else if (command == BoardCommand::MoveRight)
 		{
-			m_tileGrid[i].resize(COLLUMNS);
+			m_shapeMovment.MoveRight(m_tileGrid, m_currentShape);
 		}
-	}
-	for (uint16_t y = 0; y < ROWS; ++y)
-	{
-		for (uint16_t x = 0; x < COLLUMNS; ++x)
+		else if (command == BoardCommand::RotateLeft)
 		{
-			m_tileGrid[y][x].Deserialize(reader);
+			m_shapeMovment.RotateLeft(m_tileGrid, m_currentShape);
 		}
+		return true;
 	}
+	return false;
 }

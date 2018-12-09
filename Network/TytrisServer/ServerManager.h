@@ -22,9 +22,8 @@ public:
 
 	void Run(uint16_t port, int numberOfPlayers);
 
-	void SendWorldUpdates();
-
 	void BroadcastMessage(Network::MemoryStream& memStream);
+	void StartGame();
 
 private:
 	void HandleNewClients();
@@ -34,11 +33,11 @@ private:
 	{
 		Network::TCPSocket* clientSocket;
 		uint32_t networkId;
-		TytrisBoard playerBoard;
 	};
 
 	std::vector<Client> m_clients;
 	Network::TCPSocket m_listener;
 	int m_numberOfPlayers{ 1 };
+	bool m_gameStarted{ false };
 };
 
