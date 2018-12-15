@@ -5,7 +5,7 @@
 #include <Network.h>
 
 constexpr float PLAYER_Y_POS = 360.0f;
-constexpr float PLAYER_X_POS[3] = { 200.5f, 616.0f, 1025.0f };
+constexpr float PLAYER_X_POS[3] = { 616.0f, 200.5f, 1025.0f };
 
 class ServerManager
 {

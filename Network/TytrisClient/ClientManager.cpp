@@ -57,21 +57,21 @@ void ClientManager::Update(float deltaTime)
 		}
 		if (m_playerBoard.CanMoveShape())
 		{
-			if (X::IsKeyDown(X::Keys::LEFT))
+			if (X::IsKeyPressed(X::Keys::LEFT))
 			{
 				if (m_playerBoard.SetBoardCommand(BoardCommand::MoveLeft))
 				{
 					SendBoardCommandToServer(BoardCommand::MoveLeft);
 				}
 			}
-			else if (X::IsKeyDown(X::Keys::RIGHT))
+			else if (X::IsKeyPressed(X::Keys::RIGHT))
 			{
 				if (m_playerBoard.SetBoardCommand(BoardCommand::MoveRight))
 				{
 					SendBoardCommandToServer(BoardCommand::MoveRight);
 				}
 			}
-			else if (X::IsKeyDown(X::Keys::UP))
+			else if (X::IsKeyPressed(X::Keys::UP))
 			{
 				if (m_playerBoard.SetBoardCommand(BoardCommand::RotateLeft))
 				{

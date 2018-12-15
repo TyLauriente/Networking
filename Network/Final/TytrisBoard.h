@@ -10,10 +10,10 @@
 
 constexpr float FIRST_TILE_X_OFFSET = 69.0f;
 constexpr float FIRST_TILE_Y_OFFSET = 33.0f;
-constexpr float TICK_WAIT_TIME = 0.2f;
-constexpr float MOVE_WAIT_TIME = 0.1f;
-constexpr float PLACE_WAIT_TIME = 0.05f;
-constexpr float MAX_PLACE_WAIT_TIME = 2.0f;
+constexpr float TICK_WAIT_TIME = 0.5f;
+constexpr float MOVE_WAIT_TIME = 0.05f;
+constexpr float PLACE_WAIT_TIME = 0.025f;
+constexpr float MAX_PLACE_WAIT_TIME = 1.0f;
 
 
 

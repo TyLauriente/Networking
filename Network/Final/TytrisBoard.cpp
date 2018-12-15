@@ -56,7 +56,10 @@ void TytrisBoard::Update(float deltaTime)
 		return;
 	}
 	m_tickTimer += deltaTime;
-	m_moveTimer += deltaTime;
+	if (!m_moveTimeValid)
+	{
+		m_moveTimer += deltaTime;
+	}
 	if (m_moveTimer >= MOVE_WAIT_TIME)
 	{
 		m_moveTimer = 0.0f;
@@ -114,6 +117,7 @@ void TytrisBoard::Render()
 		return;
 	}
 	X::DrawSprite(m_tytrisBoardTexture, m_tytrisBoardPostion);
+	m_boardUI.Render();
 	for (uint8_t y = 0; y < ROWS; ++y)
 	{
 		for (uint8_t x = 0; x < COLLUMNS; ++x)
@@ -128,7 +132,6 @@ bool TytrisBoard::SetBoardCommand(BoardCommand command)
 	if (m_canMoveShape && m_moveTimeValid)
 	{
 		m_moveTimeValid = false;
-		m_moveTimer = 0.0f;
 		m_placeTimer = 0.0f;
 		if (command == BoardCommand::MoveLeft)
 		{
@@ -154,17 +157,19 @@ bool TytrisBoard::SetBoardCommand(BoardCommand command)
 			}
 			m_boardUI.SetHoldBlock(static_cast<Shapes>(m_tileGrid
 				[m_currentShape[0].y][m_currentShape[0].x].GetColor()));
-			if (m_currentHold != -1)
+			if (m_currentHold == -1)
 			{
 				m_shapeToSpawn = static_cast<Shapes>(rand() % 7);
 			}
 			else
 			{
-				m_shapeToSpawn = static_cast<Shapes>(m_tileGrid
-					[m_currentShape[0].y][m_currentShape[0].x].GetColor());
+				m_shapeToSpawn = static_cast<Shapes>(m_currentHold);
 			}
-			m_currentHold = static_cast<int>(m_shapeToSpawn);
+			m_currentHold = static_cast<int>(m_tileGrid[m_currentShape[0].y]
+				[m_currentShape[0].x].GetColor());
 			m_currentShape = m_shapeInstantiator.InstanciateShape(m_shapeToSpawn);
+			m_canMoveShape = false;
+			Dirty();
 			
 		}
 		return true;
