@@ -26,18 +26,25 @@ bool Update(float deltaTime)
 	else if (gameState == GameState::Connected)
 	{
 		X::DrawScreenText("Connected", 10.0f, 0.0f, 16.0f, X::Math::Vector4::Green());
-
 		ClientManager::Get()->HandleMessage();
 		ClientManager::Get()->Update(deltaTime);
 		ClientManager::Get()->Render();
+		if (ClientManager::Get()->Won())
+		{
+			gameState = GameState::WinGame;
+		}
+		else if (ClientManager::Get()->IsDead())
+		{
+			gameState = GameState::LoseGame;
+		}
 	}
 	else if (gameState == GameState::LoseGame)
 	{
-
+		X::DrawScreenText("LOSER!!!!!!!!!!!!", 10.0f, 0.0f, 16.0f, X::Math::Vector4::Green());
 	}
 	else
 	{
-
+		X::DrawScreenText("WINNER!!!!!!!!!!!!", 10.0f, 0.0f, 16.0f, X::Math::Vector4::Green());
 	}
 	return false;
 }

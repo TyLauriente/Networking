@@ -78,15 +78,19 @@ void TytrisBoard::Update(float deltaTime)
 						m_canMoveShape = false;
 						m_placeTimer = 0.0f;
 						m_maxPlaceTimer = 0.0f;
+						AddLines();
 					}
 				}
 			}
 			else
 			{
-				m_shapeMovement.TickDown(m_tileGrid, m_currentShape);
+				if (!m_shapeMovement.TickDown(m_tileGrid, m_currentShape))
+				{
+					AddLines();
+				}
 			}
 		}
-  		m_shapeInstantiator.Update(true, m_tileGrid, m_shapePushedToBoard);
+  		m_shapeInstantiator.Update(true, m_tileGrid, m_shapePushedToBoard, m_dead);
 	}
 	ClearFullLines();
 	if (m_canMoveShape)
@@ -206,4 +210,33 @@ void TytrisBoard::MoveLinesDown(uint8_t row)
 		}
 	}
 
+}
+
+void TytrisBoard::AddLines()
+{
+	while (m_linesToAdd > 0)
+	{
+		for (uint8_t x = 2; x < COLLUMNS; ++x)
+		{
+			for (uint8_t y = 0; y < ROWS; ++y)
+			{
+				m_shapeMovement.SwapTiles(m_tileGrid, GridPosition{ y, x },
+					GridPosition{ y, static_cast<uint8_t>(x - 1) });
+			}
+		}
+		int openPos = rand() % static_cast<int>(ROWS - 1);
+		for (uint8_t y = 0; y < ROWS; ++y)
+		{
+			m_tileGrid[y][COLLUMNS - 1].SetColor(Colors::DarkBlue);
+			if (y == openPos)
+			{
+				m_tileGrid[y][COLLUMNS - 1].TurnOn(false);
+			}
+			else
+			{
+				m_tileGrid[y][COLLUMNS - 1].TurnOn(true);
+			}
+		}
+		m_linesToAdd--;
+	}
 }

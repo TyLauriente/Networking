@@ -49,6 +49,14 @@ public:
 	void SpawnShape(Shapes shape) { m_currentShape = m_shapeInstantiator.InstanciateShape(shape);
 																		m_canMoveShape = false; }
 
+	int GetClearedLines() const { return m_clearedLines; }
+
+	void ResetClearedLines() { m_clearedLines = 0; }
+
+	void SetLinesToAdd(uint8_t lines) { m_linesToAdd = lines; }
+
+	bool IsPlayerDead() const { return m_dead; }
+
 private:
 	float ScreenHeight;
 	float ScreenWidth;
@@ -61,8 +69,9 @@ private:
 	bool m_moveTimeValid{ true };
 	float m_placeTimer{ 0.0f };
 	float m_maxPlaceTimer{ 0.0f };
-	uint8_t m_clearedLines{ 0 };
-	uint8_t m_linesToAdd{ 0 };
+	int m_clearedLines{ 0 };
+	int m_linesToAdd{ 0 };
+	bool m_dead{ false };
 	
 	std::vector<GridPosition> m_currentShape;
 	std::vector<GridPosition> m_currentShapeDestination;
@@ -79,5 +88,6 @@ private:
 	void ShowShapeDestination();
 	void ClearFullLines();
 	void MoveLinesDown(uint8_t row);
+	void AddLines();
 };
 

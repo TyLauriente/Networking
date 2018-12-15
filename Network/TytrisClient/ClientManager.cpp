@@ -47,6 +47,14 @@ void ClientManager::Update(float deltaTime)
 		{
 			opponent.playerBoard.Update(deltaTime);
 		}
+		if (m_playerBoard.IsPlayerDead())
+		{
+			m_dead = true;
+			Network::MemoryStream memStream;
+			Network::StreamWriter writer(memStream);
+			writer.Write(NetworkCommand::PlayerDead);
+			m_socket.Send(memStream.GetData(), memStream.GetHead());
+		}
 		if (m_playerBoard.CanMoveShape())
 		{
 			if (X::IsKeyDown(X::Keys::LEFT))
@@ -76,6 +84,15 @@ void ClientManager::Update(float deltaTime)
 				{
 					SendBoardCommandToServer(BoardCommand::MoveDown);
 				}
+			}
+			if (m_playerBoard.GetClearedLines() > 0)
+			{
+				Network::MemoryStream memStream;
+				Network::StreamWriter writer(memStream);
+				writer.Write(NetworkCommand::SendLines);
+				writer.Write(m_playerBoard.GetClearedLines());
+				m_socket.Send(memStream.GetData(), memStream.GetHead());
+				m_playerBoard.ResetClearedLines();
 			}
 		}
 		
@@ -202,8 +219,38 @@ bool ClientManager::HandleMessage()
 					}
 				}
 				break;
-			default:
-				XASSERT(false, "What is this?");
+			case NetworkCommand::SendLines:
+				uint8_t lines;
+				reader.Read(networkId);
+				reader.Read(lines);
+				if (networkId == m_clientId)
+				{
+					m_playerBoard.SetLinesToAdd(lines);
+				}
+				else
+				{
+					for (auto& opponent : m_opponentBoards)
+					{
+						if (opponent.networkId == networkId)
+						{
+							opponent.playerBoard.SetLinesToAdd(lines);
+						}
+					}
+				}
+				break;
+			case NetworkCommand::PlayerDead:
+				reader.Read(networkId);
+				for (auto it = m_opponentBoards.begin(); it != m_opponentBoards.end(); ++it)
+				{
+					if ((*it).networkId == networkId)
+					{
+						m_opponentBoards.erase(it);
+						break;
+					}
+				}
+				break;
+			case NetworkCommand::WinGame:
+				m_win = true;
 				break;
 			}
 		}

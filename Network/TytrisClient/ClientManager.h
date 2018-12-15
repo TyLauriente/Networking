@@ -28,17 +28,24 @@ public:
 
 	void RenderOpponentBoards();
 
+	bool IsDead() const { return m_dead; }
+
+	bool Won() const { return m_win; }
+
 private:
 	struct Opponent
 	{
 		TytrisBoard playerBoard;
 		uint32_t networkId;
 	};
+	
 
 	Network::TCPSocket m_socket;
 	uint32_t m_clientId;
 
 	TytrisBoard m_playerBoard;
+	bool m_dead{ false };
+	bool m_win{ false };
 	std::vector<Opponent> m_opponentBoards;
 	bool m_update{ false };
 };

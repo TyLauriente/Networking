@@ -179,6 +179,7 @@ void ServerManager::HandleNewClients()
 
 void ServerManager::ProcessClientMessage()
 {
+	int clientToErase{ -1 };
 	for (size_t i = 0; i < m_clients.size(); ++i)
 	{
 		Client& client = m_clients[i];
@@ -219,15 +220,68 @@ void ServerManager::ProcessClientMessage()
 					writer.Write(shape);
 					BroadcastMessage(stream);
 					break;
+				case NetworkCommand::SendLines:
+					uint8_t lines;
+					reader.Read(lines);
+					if (m_clients.size() > 1)
+					{
+						stream.Reset();
+						writer.Write(NetworkCommand::SendLines);
+						uint8_t sendClient = rand() % static_cast<uint8_t>(m_clients.size() - 1);
+						while (m_clients[sendClient].networkId == client.networkId)
+						{
+							sendClient = rand() % (static_cast<uint8_t>(m_clients.size() - 1));
+						}
+						writer.Write(m_clients[sendClient].networkId);
+						writer.Write(lines);
+						BroadcastMessage(stream);
+					}
+					break;
+				case NetworkCommand::PlayerDead:
+					clientToErase = client.networkId;
+					stream.Reset();
+					writer.Write(NetworkCommand::PlayerDead);
+					writer.Write(client.networkId);
+					for (auto& c : m_clients)
+					{
+						if (c.networkId != client.networkId)
+						{
+							c.clientSocket->Send(stream.GetData(), stream.GetHead());
+						}
+					}
+					break;
 				}
 			}
 		}
 		else if (bytesReceived == SOCKET_ERROR)
 		{
+			clientToErase = m_clients[i].networkId;
 			m_clients[i].clientSocket->Close();
 			X::SafeDelete(m_clients[i].clientSocket);
-
 			//TODO: Delete the character here
+		}
+		if (clientToErase >= 0)
+		{
+			for (auto it = m_clients.begin(); it != m_clients.end(); ++it)
+			{
+				if ((*it).networkId == clientToErase)
+				{
+					std::cout << "Client " << (*it).networkId << " has disconected\n";
+					m_clients.erase(it);
+					break;
+				}
+			}
+			if (m_clients.size() == 1)
+			{
+				Network::MemoryStream stream;
+				Network::StreamWriter writer(stream);
+				writer.Write(NetworkCommand::WinGame);
+				BroadcastMessage(stream);
+			}
+			else if (m_clients.size() == 0)
+			{
+				m_gameStarted = false;
+			}
 		}
 	}
 }

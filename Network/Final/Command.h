@@ -18,7 +18,8 @@ enum class NetworkCommand
 	TickDown,
 	BoardCommand,
 	SpawnShape,
+	SendLines,
 	AssignId,
-	LoseGame,
+	PlayerDead,
 	WinGame
 };

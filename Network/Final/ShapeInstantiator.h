@@ -53,7 +53,7 @@ public:
 
 	void XInitialize();
 	
-	void Update(bool tickDown, std::vector<std::vector<TytrisTile>>& tileGrid, bool& pushedToBoard);
+	void Update(bool tickDown, std::vector<std::vector<TytrisTile>>& tileGrid, bool& pushedToBoard, bool& dead);
 
 	std::vector<GridPosition> InstanciateShape(Shapes shape);
 
@@ -67,7 +67,7 @@ private:
 	bool m_canSpawnShape{ true };
 	
 	void ClearShapeBuffer();
-	bool PushBottomBufferRowToGrid();
+	bool PushBottomBufferRowToGrid(bool& dead);
 	void TickBufferDown();
 };
 

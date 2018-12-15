@@ -21,7 +21,7 @@ void ShapeInstantiator::XInitialize()
 }
 
 
-void ShapeInstantiator::Update(bool tickDown, std::vector<std::vector<TytrisTile>>& tileGrid, bool& pushedToBoard)
+void ShapeInstantiator::Update(bool tickDown, std::vector<std::vector<TytrisTile>>& tileGrid, bool& pushedToBoard, bool& dead)
 {
 	m_tileGrid = &tileGrid;
 	m_shapePushedToBoard = &pushedToBoard;
@@ -30,7 +30,7 @@ void ShapeInstantiator::Update(bool tickDown, std::vector<std::vector<TytrisTile
 		if (m_ticks > 0)
 		{
 			m_ticks--;
-			PushBottomBufferRowToGrid();
+			PushBottomBufferRowToGrid(dead);
 			TickBufferDown();
 		}
 	}
@@ -191,7 +191,7 @@ void ShapeInstantiator::ClearShapeBuffer()
 	}
 }
 
-bool ShapeInstantiator::PushBottomBufferRowToGrid()
+bool ShapeInstantiator::PushBottomBufferRowToGrid(bool& dead)
 {
 	TytrisTile newTopRow[BUFFER_SIZE];
 	if (m_ticks == 0)
@@ -210,6 +210,11 @@ bool ShapeInstantiator::PushBottomBufferRowToGrid()
 	}
 	for (uint8_t index = 0; index < BUFFER_SIZE; ++index)
 	{
+		if ((*m_tileGrid)[BUFFER_START + index][0].IsOn())
+		{
+			dead = true;
+			return false;
+		}
 		X::Math::Vector2 pos = (*m_tileGrid)[BUFFER_START + index][0].GetPosition();
 		(*m_tileGrid)[BUFFER_START + index][0] = m_shapeBuffer[index][BUFFER_SIZE - 1];
 		(*m_tileGrid)[BUFFER_START + index][0].SetPoition(pos);
