@@ -18,11 +18,11 @@ public:
 
 	void RotateRight(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition>& shape);
 
-private:
 	bool CanTickDown(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition> shape);
+	void SwapTiles(std::vector<std::vector<TytrisTile>>& tileGrid, GridPosition first, GridPosition second);
+private:
 	bool CanMoveLeft(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition> shape);
 	bool CanMoveRight(std::vector<std::vector<TytrisTile>>& tileGrid, std::vector<GridPosition> shape);
 
-	void SwapTiles(std::vector<std::vector<TytrisTile>>& tileGrid, GridPosition first, GridPosition second);
 };
 

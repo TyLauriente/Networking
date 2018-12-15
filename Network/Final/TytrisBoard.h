@@ -10,6 +10,9 @@
 constexpr float FIRST_TILE_X_OFFSET = 69.0f;
 constexpr float FIRST_TILE_Y_OFFSET = 33.0f;
 constexpr float TICK_WAIT_TIME = 0.2f;
+constexpr float MOVE_WAIT_TIME = 0.1f;
+constexpr float PLACE_WAIT_TIME = 0.05f;
+constexpr float MAX_PLACE_WAIT_TIME = 2.0f;
 
 
 
@@ -54,8 +57,15 @@ private:
 	bool m_needsNetworkPush{ false };
 	bool m_initialized{ false };
 	bool m_canSpawnShapes{ true };
+	float m_moveTimer{ 0.0f };
+	bool m_moveTimeValid{ true };
+	float m_placeTimer{ 0.0f };
+	float m_maxPlaceTimer{ 0.0f };
+	uint8_t m_clearedLines{ 0 };
+	uint8_t m_linesToAdd{ 0 };
 	
 	std::vector<GridPosition> m_currentShape;
+	std::vector<GridPosition> m_currentShapeDestination;
 	Shapes m_shapeToSpawn;
 	bool m_shapePushedToBoard{ false };
 	bool m_canMoveShape{ false };
@@ -63,7 +73,11 @@ private:
 	X::TextureId m_tytrisBoardTexture;
 	std::vector<std::vector<TytrisTile>> m_tileGrid;
 	ShapeInstantiator m_shapeInstantiator;
-	ShapeMovement m_shapeMovment;
+	ShapeMovement m_shapeMovement;
 	float m_tickTimer{ 0.0f };
+	
+	void ShowShapeDestination();
+	void ClearFullLines();
+	void MoveLinesDown(uint8_t row);
 };
 

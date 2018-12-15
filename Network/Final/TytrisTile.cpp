@@ -16,9 +16,23 @@ void TytrisTile::XInitialize()
 	m_tiles[4] = X::LoadTexture("OrangeTile.png");
 	m_tiles[5] = X::LoadTexture("RedTile.png");
 	m_tiles[6] = X::LoadTexture("PurpleTile.png");
+	m_tiles[7] = X::LoadTexture("DestinationTile.png");
 
 	m_tileLength = static_cast<float>(X::GetSpriteWidth(m_tiles[0]));
 	m_currentColor = Colors::DarkBlue;
+}
+
+void TytrisTile::Render()
+{
+	if (m_destination)
+	{
+		X::DrawSprite(m_tiles[7], m_position);
+		return;
+	}
+	if (m_on) 
+	{
+		X::DrawSprite(m_tiles[static_cast<int>(m_currentColor)], m_position); 
+	}
 }
 
 void TytrisTile::Serialize(Network::StreamWriter& writer) const

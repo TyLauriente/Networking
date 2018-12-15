@@ -5,6 +5,7 @@ enum class BoardCommand
 {
 	MoveLeft,
 	MoveRight,
+	MoveDown,
 	RotateLeft,
 	RotateRight
 };
