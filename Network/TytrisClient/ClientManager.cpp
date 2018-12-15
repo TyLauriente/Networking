@@ -85,6 +85,13 @@ void ClientManager::Update(float deltaTime)
 					SendBoardCommandToServer(BoardCommand::MoveDown);
 				}
 			}
+			else if (X::IsKeyPressed(X::Keys::LSHIFT))
+			{
+				if (m_playerBoard.SetBoardCommand(BoardCommand::Hold))
+				{
+					SendBoardCommandToServer(BoardCommand::Hold);
+				}
+			}
 			if (m_playerBoard.GetClearedLines() > 0)
 			{
 				Network::MemoryStream memStream;

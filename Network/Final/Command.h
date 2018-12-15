@@ -7,19 +7,19 @@ enum class BoardCommand
 	MoveRight,
 	MoveDown,
 	RotateLeft,
-	RotateRight
+	RotateRight,
+	Hold
 };
 
 enum class NetworkCommand
 {
 	SetupGame,
+	AssignId,
 	AddPlayer,
 	StartGame,
-	TickDown,
 	BoardCommand,
 	SpawnShape,
 	SendLines,
-	AssignId,
 	PlayerDead,
 	WinGame
 };

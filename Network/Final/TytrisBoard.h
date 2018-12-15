@@ -5,6 +5,7 @@
 #include "ShapeInstantiator.h"
 #include "ShapeMovement.h"
 #include "Command.h"
+#include "BoardUI.h"
 #include <Network.h>
 
 constexpr float FIRST_TILE_X_OFFSET = 69.0f;
@@ -83,6 +84,8 @@ private:
 	std::vector<std::vector<TytrisTile>> m_tileGrid;
 	ShapeInstantiator m_shapeInstantiator;
 	ShapeMovement m_shapeMovement;
+	BoardUI m_boardUI;
+	int m_currentHold{ -1 };
 	float m_tickTimer{ 0.0f };
 	
 	void ShowShapeDestination();

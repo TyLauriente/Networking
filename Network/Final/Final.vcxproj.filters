@@ -7,6 +7,7 @@
     <ClCompile Include="TytrisTile.cpp" />
     <ClCompile Include="ShapeInstantiator.cpp" />
     <ClCompile Include="ShapeMovement.cpp" />
+    <ClCompile Include="BoardUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XConfig.json" />
@@ -26,5 +27,6 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="RenderData.h" />
     <ClInclude Include="TytrisGame.h" />
+    <ClInclude Include="BoardUI.h" />
   </ItemGroup>
 </Project>

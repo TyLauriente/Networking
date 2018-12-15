@@ -41,6 +41,9 @@ void TytrisBoard::XInitialize()
 		position.y = (m_tytrisBoardPostion.y - (BoardHeight * 0.5f)) + FIRST_TILE_Y_OFFSET;
 	}
 	m_shapeInstantiator.XInitialize();
+	m_boardUI.XInitialize({ ((m_tytrisBoardPostion.x - (BoardWidth*0.5f)) + 29.0f),
+		((m_tytrisBoardPostion.y - (BoardHeight * 0.5f)) + 39.0f) });
+
 	m_shapeToSpawn = static_cast<Shapes>(rand() % 7);
 	m_currentShape = m_shapeInstantiator.InstanciateShape(m_shapeToSpawn);
 	Dirty();
@@ -142,6 +145,27 @@ bool TytrisBoard::SetBoardCommand(BoardCommand command)
 		else if (command == BoardCommand::MoveDown)
 		{
 			m_shapeMovement.TickDown(m_tileGrid, m_currentShape);
+		}
+		else if (command == BoardCommand::Hold)
+		{
+			for (auto& tile : m_currentShape)
+			{
+				m_tileGrid[tile.y][tile.x].TurnOn(false);
+			}
+			m_boardUI.SetHoldBlock(static_cast<Shapes>(m_tileGrid
+				[m_currentShape[0].y][m_currentShape[0].x].GetColor()));
+			if (m_currentHold != -1)
+			{
+				m_shapeToSpawn = static_cast<Shapes>(rand() % 7);
+			}
+			else
+			{
+				m_shapeToSpawn = static_cast<Shapes>(m_tileGrid
+					[m_currentShape[0].y][m_currentShape[0].x].GetColor());
+			}
+			m_currentHold = static_cast<int>(m_shapeToSpawn);
+			m_currentShape = m_shapeInstantiator.InstanciateShape(m_shapeToSpawn);
+			
 		}
 		return true;
 	}
