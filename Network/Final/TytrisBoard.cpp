@@ -99,10 +99,7 @@ void TytrisBoard::Update(float deltaTime)
   		m_shapeInstantiator.Update(true, m_tileGrid, m_shapePushedToBoard, m_dead);
 	}
 	ClearFullLines();
-	if (m_canMoveShape)
-	{
-		ShowShapeDestination();
-	}
+	ShowShapeDestination();
 	if (m_shapePushedToBoard)
 	{
 		m_shapePushedToBoard = false;
@@ -171,6 +168,17 @@ bool TytrisBoard::SetBoardCommand(BoardCommand command)
 			m_canMoveShape = false;
 			Dirty();
 			
+		}
+		else if (command == BoardCommand::Place)
+		{
+			while (m_shapeMovement.TickDown(m_tileGrid, m_currentShape)) {}
+			m_shapeToSpawn = static_cast<Shapes>(rand() % 7);
+			m_currentShape = m_shapeInstantiator.InstanciateShape(m_shapeToSpawn);
+			Dirty();
+			m_canMoveShape = false;
+			m_placeTimer = 0.0f;
+			m_maxPlaceTimer = 0.0f;
+			AddLines();
 		}
 		return true;
 	}

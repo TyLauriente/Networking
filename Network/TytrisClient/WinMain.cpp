@@ -20,6 +20,7 @@ X::TextureId background_connecting;
 X::TextureId background_connected;
 X::TextureId background_lose;
 X::TextureId background_win;
+X::SoundId tetrisTheme;
 
 bool Update(float deltaTime)
 {
@@ -72,6 +73,8 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	background_win = X::LoadTexture("TetrisWinBackground.png");
 	backgroundPos.x = (X::GetScreenWidth() * 0.5f);
 	backgroundPos.y = (X::GetScreenHeight() * 0.5f);
+	tetrisTheme = X::LoadSound("TetrisTheme.wav");
+	X::PlaySoundLoop(tetrisTheme);
 
 	X::Run(Update);
 

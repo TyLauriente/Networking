@@ -64,32 +64,39 @@ void ClientManager::Update(float deltaTime)
 					SendBoardCommandToServer(BoardCommand::MoveLeft);
 				}
 			}
-			else if (X::IsKeyPressed(X::Keys::RIGHT))
+			if (X::IsKeyPressed(X::Keys::RIGHT))
 			{
 				if (m_playerBoard.SetBoardCommand(BoardCommand::MoveRight))
 				{
 					SendBoardCommandToServer(BoardCommand::MoveRight);
 				}
 			}
-			else if (X::IsKeyPressed(X::Keys::UP))
+			if (X::IsKeyPressed(X::Keys::UP))
 			{
 				if (m_playerBoard.SetBoardCommand(BoardCommand::RotateLeft))
 				{
 					SendBoardCommandToServer(BoardCommand::RotateLeft);
 				}
 			}
-			else if (X::IsKeyDown(X::Keys::DOWN))
+			if (X::IsKeyDown(X::Keys::DOWN))
 			{
 				if (m_playerBoard.SetBoardCommand(BoardCommand::MoveDown))
 				{
 					SendBoardCommandToServer(BoardCommand::MoveDown);
 				}
 			}
-			else if (X::IsKeyPressed(X::Keys::LSHIFT))
+			if (X::IsKeyPressed(X::Keys::LSHIFT))
 			{
 				if (m_playerBoard.SetBoardCommand(BoardCommand::Hold))
 				{
 					SendBoardCommandToServer(BoardCommand::Hold);
+				}
+			}
+			if (X::IsKeyPressed(X::Keys::SPACE))
+			{
+				if (m_playerBoard.SetBoardCommand(BoardCommand::Place))
+				{
+					SendBoardCommandToServer(BoardCommand::Place);
 				}
 			}
 			if (m_playerBoard.GetClearedLines() > 0)

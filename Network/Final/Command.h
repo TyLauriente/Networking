@@ -8,7 +8,8 @@ enum class BoardCommand
 	MoveDown,
 	RotateLeft,
 	RotateRight,
-	Hold
+	Hold,
+	Place
 };
 
 enum class NetworkCommand
